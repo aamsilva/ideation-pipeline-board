@@ -116,13 +116,30 @@
 
 ### 🏢 Concorrência Mapeada
 
+#### **Tier 1: Enterprise Standards (Maior Ameaça)**
+
+| Competidor | Orgs/Users | Posição | Força |
+|------------|------------|---------|-------|
+| **SonarQube** | 200,000+ | Enterprise Leader | ⭐⭐⭐⭐⭐ |
+| **Codacy** | — | SonarQube Alternative | ⭐⭐⭐⭐ |
+| **Snyk** | 1,200+ | Security Leader | ⭐⭐⭐⭐⭐ |
+
+#### **Tier 2: AI-Native (Competição Direta)**
+
 | Competidor | Orgs | Posição | Força |
 |------------|------|---------|-------|
 | **GitHub Copilot** | 29,316 | Dominante | ⭐⭐⭐⭐⭐ |
 | **CodeRabbit** | 7,478 | Líder 3rd party | ⭐⭐⭐⭐⭐ |
 | **Gemini** | 2,788 | Fastest growing | ⭐⭐⭐⭐ |
-| **Qodo Merge** | — | Self-hosted | ⭐⭐⭐ |
-| **Greptile** | — | Emerging | ⭐⭐⭐ |
+| **Panto AI** | — | AI-native | ⭐⭐⭐ |
+| **Entelligence AI** | — | AI-native | ⭐⭐⭐ |
+
+#### **Tier 3: Emerging**
+
+| Competidor | Posição | Força |
+|------------|---------|-------|
+| **Qodo Merge** | Self-hosted | ⭐⭐⭐ |
+| **Greptile** | Emerging | ⭐⭐⭐ |
 
 ### 📈 Análise de Mercado
 
@@ -133,16 +150,20 @@
 
 ### 🔴 Problemas Identificados
 
-1. **GitHub Copilot domina** — 29k orgs, integração nativa
-2. **CodeRabbit é o padrão 3rd party** — 7k orgs, first mover
-3. **Mercado ainda a crescer** — Mas Copilot já está everywhere
+1. **🚨 SonarQube domina enterprise** — 200k+ organizações, padrão há décadas
+2. **Snyk é líder em security** — 1,200+ orgs, foco security
+3. **GitHub Copilot domina AI** — 29k orgs, integração nativa
+4. **CodeRabbit é o padrão 3rd party** — 7k orgs, first mover
+5. **Mercado saturado** — "10 Best SonarQube Alternatives" (artigos populares)
+6. **AI-native já existem** — Panto AI, Entelligence AI competem no mesmo espaço
 
 ### 🟡 Oportunidade de Diferenciação (MAIS PROMISSOR)
 
-**Possibilidade 1: Code Review para Security**
-- Foco: Vulnerabilidades, não só style
-- Integração com SAST/SCA
+**Possibilidade 1: Code Review para Security (vs SonarQube/Snyk)**
+- Foco: Vulnerabilidades runtime, não só static analysis
+- Integração com SAST/SCA + threat modeling
 - Compliance (SOC2, ISO27001)
+- **Diferenciação:** SonarQube faz static analysis, nós fazemos runtime analysis
 
 **Possibilidade 2: Code Review On-Device**
 - 100% local (não cloud)
