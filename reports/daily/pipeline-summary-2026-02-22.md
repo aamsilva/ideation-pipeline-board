@@ -1,11 +1,11 @@
-# 📊 Pipeline Summary — 2026-02-22 23:03:39
+# 📊 Pipeline Summary — 2026-02-22 23:18:41
 
 ## 🔄 Últimos 15 Minutos
 
 - **Novas oportunidades:** 0
 - **Backlog pending:**        1 ideias
 - **Em votação:**        0 ideias
-- **Projetos ativos:**       16
+- **Projetos ativos:**       17
 - **Projetos validados (total):**        1
 
 ## 📈 Métricas — Últimos 60 Dias
@@ -16,8 +16,8 @@
 - **Ideias arquivadas:**        0
 
 ### Pipeline Health
-- **Projetos atuais ativos:**       16
-- **Capacidade utilizada:**       16/4 slots
+- **Projetos atuais ativos:**       17
+- **Capacidade utilizada:**       17/4 slots
 - **Estado do backlog:** 🟢 Saudável (       1 ideias)
 
 ## 📜 Histórico Detalhado (2 Meses)
