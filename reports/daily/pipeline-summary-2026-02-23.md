@@ -1,4 +1,4 @@
-# 📊 Pipeline Summary — 2026-02-23 14:19:54
+# 📊 Pipeline Summary — 2026-02-23 14:34:55
 
 ## 🔄 Últimos 15 Minutos
 
@@ -6,13 +6,13 @@
 - **Backlog pending:**        3 ideias
 - **Em votação:**        2 ideias
 - **Projetos ativos:**       20
-- **Projetos validados (total):**        3
+- **Projetos validados (total):**        5
 
 ## 📈 Métricas — Últimos 60 Dias
 
 ### Throughput
-- **Ideias processadas (60d):**        8
-- **Taxa de aprovação:** 37%
+- **Ideias processadas (60d):**       10
+- **Taxa de aprovação:** 50%
 - **Ideias arquivadas:**        0
 
 ### Pipeline Health
@@ -26,6 +26,8 @@
 - **ai-authentication-system** — 2026-02-22
 - **aiwallet-agent-banking** — 2026-02-23
 - **deepverify-video-authentication** — 2026-02-23
+- **integracao-tools-ideation-board** — 2026-02-23
+- **sistema-templates-ideation-board** — 2026-02-23
 
 ### Decisões de Fórum (últimos 60 dias)
 - *Nenhuma decisão registada*
@@ -33,7 +35,7 @@
 ## 📊 Tendências
 
 - **Média ideias/dia:** 0
-- **Tempo médio no backlog:** ~22 dias
+- **Tempo médio no backlog:** ~18 dias
 
 ## 🎯 Ações Recomendadas
 
