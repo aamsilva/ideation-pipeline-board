@@ -1,24 +1,24 @@
-# 📊 Pipeline Summary — 2026-02-23 08:49:26
+# 📊 Pipeline Summary — 2026-02-23 09:04:27
 
 ## 🔄 Últimos 15 Minutos
 
 - **Novas oportunidades:** 0
-- **Backlog pending:**        2 ideias
+- **Backlog pending:**        3 ideias
 - **Em votação:**        2 ideias
-- **Projetos ativos:**       18
+- **Projetos ativos:**       20
 - **Projetos validados (total):**        3
 
 ## 📈 Métricas — Últimos 60 Dias
 
 ### Throughput
-- **Ideias processadas (60d):**        7
-- **Taxa de aprovação:** 42%
+- **Ideias processadas (60d):**        8
+- **Taxa de aprovação:** 37%
 - **Ideias arquivadas:**        0
 
 ### Pipeline Health
-- **Projetos atuais ativos:**       18
-- **Capacidade utilizada:**       18/4 slots
-- **Estado do backlog:** 🟢 Saudável (       2 ideias)
+- **Projetos atuais ativos:**       20
+- **Capacidade utilizada:**       20/4 slots
+- **Estado do backlog:** 🟢 Saudável (       3 ideias)
 
 ## 📜 Histórico Detalhado (2 Meses)
 
@@ -33,7 +33,7 @@
 ## 📊 Tendências
 
 - **Média ideias/dia:** 0
-- **Tempo médio no backlog:** ~17 dias
+- **Tempo médio no backlog:** ~22 dias
 
 ## 🎯 Ações Recomendadas
 
