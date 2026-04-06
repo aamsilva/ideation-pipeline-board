@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Innovation Pipeline — Live Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+--bg: #0a0a0f; --card: #12121a; --border: #1e1e2e; --accent: #f0b232;
+--p0: #00d4aa; --p1: #f0b232; --p2: #ff8c42; --p3: #ff4757;
+--text: #e0e0e0; --text-dim: #888; --up: #00d4aa; --down: #ff4757; --stable: #f0b232;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; padding: 20px; }
+h1 { font-size: 28px; margin-bottom: 5px; } .accent { color: var(--accent); }
+.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.updated { color: var(--text-dim); font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
+.stat-card .number { font-size: 32px; font-weight: 700; }
+.stat-card .label { font-size: 12px; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.p0-color { color: var(--p0); } .p1-color { color: var(--p1); } .p2-color { color: var(--p2); } .p3-color { color: var(--p3); }
+.section { margin-bottom: 32px; }
+.section h2 { font-size: 20px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; position: relative; transition: transform 0.2s; }
+.card:hover { transform: translateY(-2px); }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.card-title { font-size: 16px; font-weight: 600; }
+.score-badge { padding: 4px 10px; border-radius: 20px; font-size: 14px; font-weight: 700; }
+.score-p0 { background: rgba(0,212,170,0.15); color: var(--p0); border: 1px solid rgba(0,212,170,0.3); }
+.score-p1 { background: rgba(240,178,50,0.15); color: var(--p1); border: 1px solid rgba(240,178,50,0.3); }
+.score-p2 { background: rgba(255,140,66,0.15); color: var(--p2); border: 1px solid rgba(255,140,66,0.3); }
+.score-p3 { background: rgba(255,71,87,0.15); color: var(--p3); border: 1px solid rgba(255,71,87,0.3); }
+.meta { display: flex; gap: 12px; font-size: 12px; color: var(--text-dim); margin-bottom: 10px; flex-wrap: wrap; }
+.meta-item { display: flex; align-items: center; gap: 4px; }
+.progress-bar { height: 6px; background: #1a1a2e; border-radius: 3px; overflow: hidden; margin-top: 8px; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+.trend-up { color: var(--up); } .trend-down { color: var(--down); } .trend-stable { color: var(--stable); }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.tag { background: rgba(240,178,50,0.08); color: var(--text-dim); padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+.pipeline-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.pipeline-col { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.pipeline-col h3 { font-size: 14px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+.pipeline-item { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 13px; }
+.pipeline-item .item-score { float: right; font-weight: 700; }
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.chart-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.chart-container h3 { font-size: 14px; margin-bottom: 10px; color: var(--text-dim); }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th, td { text-align: left; padding: 10px 12px; font-size: 13px; }
+th { color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-size: 11px; border-bottom: 1px solid var(--border); }
+td { border-bottom: 1px solid var(--border); }
+tr:hover td { background: rgba(255,255,255,0.02); }
+.voting-table { font-size: 13px; }
+@media(max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+@media(max-width: 600px) { .grid { grid-template-columns: 1fr; } body { padding: 10px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<div>
+<h1>🚀 Innovation <span class="accent">Pipeline</span> Board</h1>
+<p style="color:var(--text-dim); font-size:14px;">Hexa Labs — Autonomous Execution Dashboard</p>
+</div>
+<div class="updated" id="lastUpdated">Atualizado: 2026-04-06 09:49 UTC</div>
+</div>
+
+<div class="stats">
+<div class="stat-card"><div class="number p0-color">11</div><div class="label">Projetos P0</div></div>
+<div class="stat-card"><div class="number p1-color">4</div><div class="label">Projetos P1</div></div>
+<div class="stat-card"><div class="number p2-color">2</div><div class="label">Projetos P2</div></div>
+<div class="stat-card"><div class="number accent">92.3</div><div class="label">Avg Score P0</div></div>
+<div class="stat-card"><div class="number p0-color">3</div><div class="label">Backlog</div></div>
+<div class="stat-card"><div class="number p1-color">2</div><div class="label">Em Votação</div></div>
+<div class="stat-card"><div class="number p0-color">50%</div><div class="label">Approval Rate</div></div>
+</div>
+
+<!-- EXECUTION CHARTS -->
+<div class="section">
+<h2>📊 Charts — Execução</h2>
+<div class="charts-grid">
+<div class="chart-container">
+<h3>Distribuição de Prioridades</h3>
+<canvas id="priorityChart"></canvas>
+</div>
+<div class="chart-container">
+<h3>Score dos 17 Projetos</h3>
+<canvas id="scoreChart"></canvas>
+</div>
+<div class="chart-container">
+<h3>Progresso por Projeto (Top 11 P0)</h3>
+<canvas id="progressChart"></canvas>
+</div>
+<div class="chart-container">
+<h3>Categorias de Projetos</h3>
+<canvas id="categoryChart"></canvas>
+</div>
+</div>
+</div>
+
+<!-- ALL PROJECTS TABLE -->
+<div class="section">
+<h2>🎯 Todos os 17 Projetos — Ranking</h2>
+<table>
+<thead>
+<tr><th>#</th><th>Projeto</th><th>Score</th><th>Prioridade</th><th>Progresso</th><th>Sprint</th><th>Trend</th><th>Ação</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td><strong>Clawdbot Cloud</strong></td><td class="p0-color">97</td><td><span class="score-badge score-p0">P0</span></td><td>15%</td><td>Sprint 1</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>2</td><td><strong>AI Skills Learning</strong></td><td class="p0-color">96</td><td><span class="score-badge score-p0">P0</span></td><td>12%</td><td>Sprint 1</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>3</td><td><strong>AI Talent Marketplace</strong></td><td class="p0-color">95</td><td><span class="score-badge score-p0">P0</span></td><td>10%</td><td>Sprint 1</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>4</td><td><strong>Agent Security Platform</strong></td><td class="p0-color">94</td><td><span class="score-badge score-p0">P0</span></td><td>8%</td><td>Sprint 1</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>5</td><td><strong>Tech Trends Newsletter</strong></td><td class="p0-color">94</td><td><span class="score-badge score-p0">P0</span></td><td>45%</td><td>Sprint 3</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>6</td><td><strong>Micro-Learning Platform</strong></td><td class="p0-color">93</td><td><span class="score-badge score-p0">P0</span></td><td>5%</td><td>Sprint 0</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>7</td><td><strong>Multi-Agent Fraud Detection</strong></td><td class="p0-color">91</td><td><span class="score-badge score-p0">P0</span></td><td>3%</td><td>Sprint 0</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>8</td><td><strong>AI Governance SaaS</strong></td><td class="p0-color">88</td><td><span class="score-badge score-p0">P0</span></td><td>2%</td><td>Sprint 0</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>9</td><td><strong>Vibe Coding Agency</strong></td><td class="p0-color">87</td><td><span class="score-badge score-p0">P0</span></td><td>25%</td><td>Sprint 2</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>10</td><td><strong>AI Wallet Agent Banking</strong></td><td class="p0-color">85</td><td><span class="score-badge score-p0">P0</span></td><td>1%</td><td>Sprint 0</td><td class="trend-up">📈</td><td>⚡ Acelerar</td></tr>
+<tr><td>11</td><td><strong>AI Auth System</strong></td><td class="p0-color">84</td><td><span class="score-badge score-p0">P0</span></td><td>10%</td><td>Sprint 0</td><td class="trend-stable">➡️</td><td>⚡ Acelerar</td></tr>
+<tr><td>12</td><td>Integração Tools Ideation</td><td class="p0-color">82</td><td><span class="score-badge score-p0">P0</span></td><td>30%</td><td>Sprint 1</td><td class="trend-stable">➡️</td><td>Manter</td></tr>
+<tr><td>13</td><td>Sistema Templates</td><td class="p0-color">82</td><td><span class="score-badge score-p0">P0</span></td><td>20%</td><td>Active</td><td class="trend-stable">➡️</td><td>Manter</td></tr>
+<tr><td>14</td><td>DeepVerify Video Auth</td><td class="p1-color">76</td><td><span class="score-badge score-p1">P1</span></td><td>15%</td><td>Sprint 1</td><td class="trend-stable">➡️</td><td>Manter</td></tr>
+<tr><td>15</td><td>Agent Sandbox</td><td class="p1-color">74</td><td><span class="score-badge score-p1">P1</span></td><td>12%</td><td>Sprint 1</td><td class="trend-stable">➡️</td><td>Monitorar</td></tr>
+<tr><td>16</td><td>DeepVerify</td><td class="p1-color">76</td><td><span class="score-badge score-p1">P1</span></td><td>15%</td><td>Sprint 1</td><td class="trend-stable">➡️</td><td>Manter</td></tr>
+<tr><td>17</td><td>AI Auth System (Legacy)</td><td class="p2-color">58</td><td><span class="score-badge score-p2">P2</span></td><td>5%</td><td>Blocked</td><td class="trend-down">📉</td><td>⚠️ Reavaliar</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- PIPELINE VOTING -->
+<div class="section">
+<h2>📋 Pipeline de Ideias & Votação</h2>
+<div class="pipeline-section">
+<div class="pipeline-col">
+<h3 style="color:var(--text-dim);">📥 Backlog (3)</h3>
+<div class="pipeline-item">AI Code Review Tool <span class="item-score p0-color">—</span><br><span style="color:var(--text-dim);font-size:11px;">GitHub Scout</span></div>
+<div class="pipeline-item">Auto-Testing Framework <span class="item-score p0-color">—</span><br><span style="color:var(--text-dim);font-size:11px;">ProductHunt Scout</span></div>
+<div class="pipeline-item">DevOps AI Assistant <span class="item-score p0-color">—</span><br><span style="color:var(--text-dim);font-size:11px;">Trend Scout</span></div>
+</div>
+<div class="pipeline-col">
+<h3 style="color:var(--p1);">🗳️ Em Votação (2)</h3>
+<div class="pipeline-item">AI Newsletter Premium <span class="item-score p1-color">~85</span><br><span style="color:var(--text-dim);font-size:11px;">Forum: Aguardando votos</span></div>
+<div class="pipeline-item">Podcast Generator <span class="item-score p1-color">~80</span><br><span style="color:var(--text-dim);font-size:11px;">Forum: Análise em curso</span></div>
+</div>
+<div class="pipeline-col">
+<h3 style="color:var(--p0);">✅ Aprovados (17)</h3>
+<div class="pipeline-item" style="border-left:3px solid var(--p0);">Clawdbot Cloud <span class="item-score p0-color">97</span></div>
+<div class="pipeline-item" style="border-left:3px solid var(--p0);">AI Skills Learning <span class="item-score p0-color">96</span></div>
+<div class="pipeline-item" style="border-left:3px solid var(--p0);">AI Talent Marketplace <span class="item-score p0-color">95</span></div>
+<div class="pipeline-item" style="border-left:3px solid var(--p0);">+ 14 mais...</div>
+</div>
+</div>
+</div>
+
+<!-- VOTING DETAILS -->
+<div class="section">
+<h2>🗳️ Histórico de Votações Recentes</h2>
+<table class="voting-table">
+<thead>
+<tr><th>Projeto</th><th>Score</th><th>Votos</th><th>Método</th><th>Resultado</th><th>Data</th></tr>
+</thead>
+<tbody>
+<tr><td>AI Authentication System</td><td>84/100</td><td>5/5 APROVAR</td><td>Fórum Agentes</td><td>✅ Aprovado</td><td>2026-02-23</td></tr>
+<tr><td>AI Wallet Agent Banking</td><td>—</td><td>—</td><td>Auto-approve</td><td>✅ Aprovado</td><td>2026-02-23</td></tr>
+<tr><td>DeepVerify Video Auth</td><td>—</td><td>—</td><td>Auto-approve</td><td>✅ Aprovado</td><td>2026-02-23</td></tr>
+<tr><td>Integração Tools</td><td>—</td><td>—</td><td>Auto-approve</td><td>✅ Aprovado</td><td>2026-02-23</td></tr>
+<tr><td>Sistema Templates</td><td>—</td><td>—</td><td>Auto-approve</td><td>✅ Aprovado</td><td>2026-02-23</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- HOURLY METRICS PLACEHOLDER -->
+<div class="section">
+<h2>⏱️ Métricas Hora a Hora (Auto-Research)</h2>
+<table>
+<thead>
+<tr><th>Hora (UTC)</th><th>Projetos Ativos</th><th>Score Médio</th><th>Novas Ideias</th><th>Progresso</th><th>Alertas</th></tr>
+</thead>
+<tbody id="hourlyMetrics">
+<tr><td colspan="6" style="text-align:center;color:var(--text-dim);">Aguardando primeiro relatório hourly...</td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="text-align:center;padding:24px;color:var(--text-dim);font-size:12px;border-top:1px solid var(--border);margin-top:32px;">
+Powered by Hermes Agent — Autonomous 24/7 Pipeline Management<br>
+<a href="https://github.com/aamsilva/ideation-pipeline-board" style="color:var(--accent);">github.com/aamsilva/ideation-pipeline-board</a>
+</div>
+
+<script>
+const colors = { p0: '#00d4aa', p1: '#f0b232', p2: '#ff8c42', p3: '#ff4757', bg: '#12121a', grid: '#1e1e2e', text: '#e0e0e0', dim:' #888' };
+Chart.defaults.color = colors.text;
+Chart.defaults.borderColor = colors.grid;
+
+// Priority distribution
+new Chart(document.getElementById('priorityChart'), {
+  type: 'doughnut',
+  data: { labels: ['P0 Acelerar', 'P1 Manter', 'P2 Reavaliar'], datasets: [{ data: [11, 4, 2], backgroundColor: [colors.p0, colors.p1, colors.p2], borderWidth: 0 }] },
+  options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// Scores bar
+const projectNames = ['Clawdbot','AI Skills','AI Talent','Agent Sec','Newsletter','Micro-Learn','Fraud Detect','AI Gov SaaS','Vibe Coding','Wallet Bank','AI Auth','Tools Int','Templates','DeepVer Vid','Agent Sand','DeepVerify','AI Legacy'];
+const scores = [97,96,95,94,94,93,91,88,87,85,84,82,82,76,74,76,58];
+const barColors = scores.map(s => s>=84?colors.p0 : s>=70?colors.p1 : colors.p2);
+new Chart(document.getElementById('scoreChart'), {
+  type: 'bar',
+  data: { labels: projectNames, datasets: [{ label: 'Score', data: scores, backgroundColor: barColors, borderRadius: 4 }] },
+  options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { min: 0, max: 100 } } }
+});
+
+// Progress horizontal
+const topP0 = projectNames.slice(0,11);
+const progress = [15,12,10,8,45,5,3,2,25,1,10];
+new Chart(document.getElementById('progressChart'), {
+  type: 'bar',
+  data: { labels: topP0, datasets: [{ label: 'Progresso %', data: progress, backgroundColor: 'rgba(0,212,170,0.7)', borderRadius: 4 }] },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { min: 0, max: 100 } } }
+});
+
+// Category
+new Chart(document.getElementById('categoryChart'), {
+  type: 'doughnut',
+  data: { labels: ['Security','Education','FinTech','DevTools','Content','Marketplace','Infrastructure','Enterprise','Internal'], datasets: [{ data: [3,2,3,3,1,1,1,1,3], backgroundColor: ['#00d4aa','#f0b232','#ff8c42','#a855f7','#3b82f6','#06b6d4','#10b981','#f43f5e','#facc15'], borderWidth: 0 }] },
+  options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } } }
+});
+</script>
+</body>
+</html>
