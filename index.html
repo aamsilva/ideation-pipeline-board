@@ -1,214 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 Innovation Pipeline — Live Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #0a0a0f; color: #e0e0e0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            padding: 20px; min-height: 100vh;
-        }
-        .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border: 1px solid #0f3460; border-radius: 14px; padding: 24px 28px;
-            margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center;
-        }
-        .header h1 { font-size: 26px; color: #e94560; }
-        .header .sub { color: #777; font-size: 13px; margin-top: 4px; }
-        .header .ts { text-align: right; }
-        .header .ts .live { color: #06d6a0; font-size: 12px; font-weight: 600; }
-        .header .ts .time { color: #555; font-size: 11px; margin-top: 3px; }
-        .pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #06d6a0;
-            margin-right: 6px; animation: blink 2s ease-in-out infinite; vertical-align: middle; }
-        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:.3; } }
-
-        .kpi-row {
-            display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 22px;
-        }
-        .kpi {
-            background: #111119; border: 1px solid #1a1a26; border-radius: 10px;
-            padding: 16px 12px; text-align: center; transition: transform .15s, border-color .3s;
-        }
-        .kpi:hover { transform: translateY(-2px); }
-        .kpi .v { font-size: 32px; font-weight: 700; margin-bottom: 3px; }
-        .kpi .l { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: .8px; }
-        .c-red{color:#e94560}.c-bl{color:#00b4d8}.c-gr{color:#06d6a0}.c-or{color:#ffb347}.c-pur{color:#a78bfa}.c-cy{color:#00e5ff}.c-wh{color:#e0e0e0}
-        .kpi:hover { border-color: var(--ac); }
-        .kpi:nth-child(1){--ac:#e94560}.kpi:nth-child(2){--ac:#06d6a0}.kpi:nth-child(3){--ac:#00b4d8}
-        .kpi:nth-child(4){--ac:#ffb347}.kpi:nth-child(5){--ac:#a78bfa}.kpi:nth-child(6){--ac:#00e5ff}.kpi:nth-child(7){--ac:#06d6a0}
-
-        .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
-        .card { background: #111119; border: 1px solid #1a1a26; border-radius: 12px; padding: 20px; }
-        .card h2 { color: #e94560; font-size: 16px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid #1a1a26; }
-        .fw { grid-column: 1/-1; }
-
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { text-align: left; padding: 8px 10px; color: #666; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #1a1a26; }
-        td { padding: 9px 10px; border-bottom: 1px solid #0f0f15; color: #bbb; }
-        tr:hover td { background: #0d0d15; }
-        .sc { display: inline-block; padding: 2px 9px; border-radius: 10px; font-weight: 600; font-size: 12px; min-width: 34px; text-align: center; }
-        .s99,.s98{background:rgba(233,69,96,.18);color:#e94560}.s96,.s95,.s94{background:rgba(255,179,71,.18);color:#ffb347}
-        .s93,.s91,.s90{background:rgba(0,180,216,.18);color:#00b4d8}.s97{background:rgba(6,214,160,.18);color:#06d6a0}
-        .s88,.s87,.s85{background:rgba(167,139,250,.18);color:#a78bfa}.s84,.s82{background:rgba(0,229,255,.15);color:#00e5ff}
-        .s76,.s74{background:rgba(255,179,71,.1);color:#ffb347cc}.s58{background:rgba(255,0,0,.1);color:#ff4444}
-
-        .alert-box { background: #1a0a0a; border: 1px solid #e9456040; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
-        .alert-box h3 { color: #e94560; font-size: 14px; margin-bottom: 8px; }
-        .alert-item { color: #ff9999; font-size: 12px; margin-bottom: 4px; padding-left: 12px; }
-
-        .status-badge { display: inline-block; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 500; }
-        .st-new { background: rgba(0,180,216,.15); color: #00b4d8; }
-        .st-generated { background: rgba(6,214,160,.15); color: #06d6a0; }
-        .st-approved { background: rgba(255,179,71,.15); color: #ffb347; }
-        .st-acelerar { background: rgba(233,69,96,.15); color: #e94560; }
-        .st-sprint { background: rgba(167,139,250,.15); color: #a78bfa; }
-        .st-manter { background: rgba(255,179,71,.1); color: #ffb347cc; }
-        .st-monitorar { background: rgba(0,229,255,.1); color: #00e5ff99; }
-        .st-reavaliar { background: rgba(255,0,0,.1); color: #ff4444; }
-
-        @media(max-width:900px) { .cards{grid-template-columns:1fr}.kpi-row{grid-template-columns:repeat(3,1fr)} }
-        @media(max-width:600px) { .kpi-row{grid-template-columns:repeat(2,1fr)} }
-    </style>
+<meta charset="UTF-8">
+<title>🚀 Innovation Pipeline – Dashboard</title>
+<style>
+body {font-family:Arial,Helvetica,sans-serif;background:#111;color:#eee;margin:20px;}
+header {margin-bottom:20px;}
+h1 {color:#e94560;}
+table {border-collapse:collapse;width:100%;margin-top:10px;}
+th,td {border:1px solid #333;padding:5px;text-align:left;}
+th {background:#222;}
+.kpi {display:inline-block;margin:5px;padding:10px;background:#222;border-radius:6px;}
+.kpi .val {font-size:1.5em;color:#e94560;}
+.alert {background:#2a0a0a;color:#ff9999;padding:10px;margin:10px 0;border:1px solid #e94560;}
+</style>
 </head>
 <body>
-    <div class="header">
-        <div><h1>🚀 Innovation Pipeline</h1><div class="sub">Ideation → Voting → Approval → Factory</div></div>
-        <div class="ts"><div class="live"><span class="pulse"></span>LIVE</div><div class="time" id="ts"></div></div>
-    </div>
-
-    <div class="kpi-row" id="kpi-row"></div>
-
-    <!-- Alerts -->
-    <div id="alerts-section"></div>
-
-    <div class="cards">
-        <div class="card"><h2>📊 Score Distribution</h2><canvas id="chScore"></canvas></div>
-        <div class="card"><h2>📈 Pipeline Funnel</h2><canvas id="chFunnel"></canvas></div>
-        <div class="card"><h2>🏷️ Category Breakdown</h2><canvas id="chCat"></canvas></div>
-        <div class="card"><h2>⚡ Pipeline Status</h2><div id="pipeline-status"></div></div>
-    </div>
-
-    <div class="cards">
-        <div class="card fw"><h2>🏆 Ideas Ranked by Score</h2><table><thead><tr><th>#</th><th>Idea</th><th>Category</th><th>Score</th><th>Signals</th><th>Status</th></tr></thead><tbody id="tIdeas"></tbody></table></div>
-        <div class="card fw"><h2>✅ Dispatched to Software Factory</h2><table><thead><tr><th>#</th><th>Project</th><th>Score</th><th>Dispatched</th></tr></thead><tbody id="tDisp"></tbody></table></div>
-    </div>
-
-<script>
-/* ──── DATA ──── */
-const IDEAS = [{"id": "gov-firewall-001", "name": "Agent Governance Firewall", "score": 99, "category": "AI Safety & Governance", "status": "approved", "signals": 0, "votes": 0}, {"id": "a0ed09ac", "name": "AI Supply Chain Shield", "score": 99, "category": "other", "status": "generated", "signals": 0, "votes": 0}, {"id": "d84ffc53", "name": "DeepVerify Enterprise API", "score": 99, "category": "other", "status": "generated", "signals": 0, "votes": 0}, {"id": "fba4d746", "name": "Edge AI Chip Optimizer", "score": 95, "category": "other", "status": "new", "signals": 0, "votes": 0}, {"id": "cab6344b", "name": "SMB AI Onboarding Platform", "score": 95, "category": "other", "status": "new", "signals": 0, "votes": 0}, {"id": "4ca9f17c", "name": "AI Procurement Engine", "score": 95, "category": "other", "status": "new", "signals": 0, "votes": 0}, {"id": "54635832", "name": "Model Router SaaS", "score": 99, "category": "other", "status": "generated", "signals": 0, "votes": 0}, {"id": "989d80dc", "name": "AI Observability Platform", "score": 99, "category": "other", "status": "generated", "signals": 0, "votes": 0}, {"id": "80af76f5", "name": "AI Compliance-as-a-Service", "score": 90, "category": "other", "status": "new", "signals": 0, "votes": 0}, {"id": "adbccf68", "name": "Real-Time KYC Network", "score": 95, "category": "other", "status": "new", "signals": 0, "votes": 0}, {"id": "0cf55c85", "name": "Agent Orchestration Hub", "score": 95, "category": "other", "status": "new", "signals": 0, "votes": 0}, {"id": "2e006e92", "name": "Agent Testing Framework", "score": 95, "category": "other", "status": "new", "signals": 0, "votes": 0}, {"id": "180738f6", "name": "Edge AI Model Compiler", "score": 99, "category": "other", "status": "generated", "signals": 0, "votes": 0}, {"id": "8329dbc9", "name": "Agent Testing & QA Platform", "score": 99, "category": "other", "status": "generated", "signals": 0, "votes": 0}, {"id": "171d163f", "name": "Edge AI Inference Network", "score": 99, "category": "other", "status": "generated", "signals": 0, "votes": 0}, {"id": "13e31446", "name": "SMB AI Adoption Platform", "score": 98, "category": "other", "status": "new", "signals": 0, "votes": 0}, {"id": "bc2f70c8", "name": "Synthetic Media Detection API", "score": 98, "category": "other", "status": "new", "signals": 0, "votes": 0}, {"id": "279bd977", "name": "Real-Time KYC Verification Network", "score": 96, "category": "other", "status": "new", "signals": 0, "votes": 0}];
-const DISPATCHED = [{"id": "1", "name": "Clawdbot Cloud", "score": 97, "date": "2026-04-06 09:28"}, {"id": "2", "name": "AI Skills Learning", "score": 96, "date": "2026-04-06 09:28"}, {"id": "3", "name": "AI Talent Marketplace", "score": 95, "date": "2026-04-06 09:28"}, {"id": "4", "name": "Agent Security Platform", "score": 94, "date": "2026-04-06 09:28"}, {"id": "5", "name": "Tech Trends Newsletter", "score": 94, "date": "2026-04-06 09:28"}, {"id": "6", "name": "Micro-Learning Platform", "score": 93, "date": "2026-04-06 09:28"}, {"id": "7", "name": "Multi-Agent Fraud Detection", "score": 91, "date": "2026-04-06 09:28"}, {"id": "8", "name": "AI Governance SaaS", "score": 88, "date": "2026-04-06 09:28"}, {"id": "9", "name": "Vibe Coding Agency", "score": 87, "date": "2026-04-06 09:28"}, {"id": "10", "name": "AI Wallet Agent Banking", "score": 85, "date": "2026-04-06 09:28"}, {"id": "11", "name": "AI Auth System", "score": 84, "date": "2026-04-06 09:28"}, {"id": "12", "name": "Integração Tools Ideation", "score": 82, "date": "2026-04-06 09:28"}, {"id": "13", "name": "Sistema Templates", "score": 82, "date": "2026-04-06 09:28"}, {"id": "14", "name": "Model Router SaaS", "score": 99, "date": "2026-04-06 16:25"}, {"id": "15", "name": "Edge AI Model Compiler", "score": 99, "date": "2026-04-06 16:25"}, {"id": "16", "name": "AI Observability Platform", "score": 99, "date": "2026-04-06 16:25"}, {"id": "17", "name": "AI Supply Chain Shield", "score": 99, "date": "2026-04-09 02:09"}];
-const CAT_COLORS = {"ai_security": "#e94560", "chip_hardware": "#ffb347", "enterprise_ai": "#06d6a0", "ai_infra": "#00b4d8", "fintech": "#a78bfa", "agent_platform": "#00e5ff", "edge_computing": "#fbbf24", "content_creation": "#f472b6", "other": "#888"};
-const CAT_LABELS = {"ai_security": "AI Security", "chip_hardware": "Chip/Hardware", "enterprise_ai": "Enterprise AI", "ai_infra": "AI Infra", "fintech": "FinTech", "agent_platform": "Agent Platform", "edge_computing": "Edge Computing", "content_creation": "Content Creation", "other": "Other"};
-
-/* ──── KPI ──── */
-const nIdeas = IDEAS.length, nDisp = DISPATCHED.length;
-const topScore = Math.max(...IDEAS.map(i=>i.score));
-const avgScore = (IDEAS.reduce((s,i)=>s+i.score,0)/nIdeas).toFixed(1);
-const nSignal = 603;
-const pct = Math.round(nDisp/nIdeas*100);
-const kpis = [
-  {v:nIdeas,l:'Total Ideas',c:'c-red'},{v:nDisp,l:'Dispatched',c:'c-gr'},
-  {v:nIdeas-nDisp,l:'Pending Ideas',c:'c-bl'},{v:topScore,l:'🏆 Top Score',c:'c-or'},
-  {v:avgScore,l:'Avg Score',c:'c-pur'},{v:nSignal,l:'Signals Scanned',c:'c-cy'},
-  {v:pct+'%',l:'Dispatch %',c:'c-wh'}
-];
-let khtml = '';
-kpis.forEach(k=>{khtml+=`<div class="kpi"><div class="v ${k.c}">${k.v}</div><div class="l">${k.l}</div></div>`});
-document.getElementById('kpi-row').innerHTML = khtml;
-
-/* ──── ALERTS ──── */
-const alerts = [
-  '⏰ Micro-Learning Platform: Sprint 0 for 32 days — needs acceleration',
-  '⚠️ AI Wallet Agent Banking: HIGH risk, Sprint 0 for 55 days',
-  '⏰ AI Auth System: Sprint 0 for 56 days',
-  '📉 AI Auth System (Legacy): trending down (score 58) — BLOCKED',
-  '⏰ Agent Security Platform: Only 8% progress after 36 days',
-];
-let ahtml = '<div class="alert-box"><h3>⚠️ Active Alerts</h3>';
-alerts.forEach(a=>{ahtml+=`<div class="alert-item">${a}</div>`});
-ahtml += '</div>';
-document.getElementById('alerts-section').innerHTML = ahtml;
-
-/* ──── IDEAS TABLE ─── */
-const sorted = [...IDEAS].sort((a,b)=>b.score-a.score);
-let ihtml = '';
-sorted.forEach((it,i)=>{
-    const cc = CAT_COLORS[it.category]||'#888';
-    const stClass = 'st-' + (it.status||'new').toLowerCase().replace(/\s+/g,'-');
-    ihtml+=`<tr><td style="color:#444">${i+1}</td>
-    <td><strong>${it.name}</strong></td>
-    <td><span style="color:${cc}">${CAT_LABELS[it.category]||it.category}</span></td>
-    <td><span class="sc s${it.score}">${it.score}</span></td>
-    <td style="color:#555">${it.signals||0}</td>
-    <td><span class="status-badge ${stClass}">${it.status||'new'}</span></td></tr>`;
-});
-document.getElementById('tIdeas').innerHTML = ihtml;
-
-/* ──── DISPATCH TABLE ─── */
-let dhtml = '';
-DISPATCHED.forEach(p=>{
-    dhtml+=`<tr><td style="color:#444">${p.id}</td><td><strong>${p.name}</strong></td>
-    <td><span class="sc s${p.score}">${p.score}</span></td>
-    <td style="color:#555">${p.date}</td></tr>`;
-});
-document.getElementById('tDisp').innerHTML = dhtml;
-
-/* ──── PIPELINE STATUS ─── */
-const statusCounts = {};
-IDEAS.forEach(i=>{const s=i.status||'new';statusCounts[s]=(statusCounts[s]||0)+1});
-let sphtml='<div style="padding:8px 0">';
-Object.entries(statusCounts).sort((a,b)=>b[1]-a[1]).forEach(([k,v])=>{
-    const stClass='st-'+k.toLowerCase().replace(/\s+/g,'-');
-    sphtml+=`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1a1a26"><span class="status-badge ${stClass}">${k}</span><span style="color:#888">${v} projects</span></div>`;
-});
-sphtml+='</div>';
-document.getElementById('pipeline-status').innerHTML = sphtml;
-
-/* ──── TIMESTAMP ──── */
-document.getElementById('ts').textContent = new Date().toLocaleString('pt-PT',{timeZone:'UTC',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) + ' UTC';
-
-/* ──── CHARTS ──── */
-const darkGrid = 'rgba(255,255,255,0.06)';
-
-new Chart(document.getElementById('chScore'), {
-    type:'bar',
-    data:{labels:["99", "95-98", "90-94"],datasets:[{data:[8, 9, 1],
-        backgroundColor:["#e94560", "#ff7979", "#ffb347"],borderRadius:6,borderSkipped:false}]},
-    options:{responsive:true,plugins:{legend:{display:false}},
-        scales:{y:{beginAtZero:true,ticks:{color:'#555'},grid:{color:darkGrid}},
-                x:{ticks:{color:'#888'},grid:{display:false}}}
-});
-
-new Chart(document.getElementById('chFunnel'), {
-    type:'doughnut',
-    data:{labels:['Total Ideas','Dispatched','Pending'],
-        datasets:[{data:[nIdeas,nDisp,nIdeas-nDisp],
-            backgroundColor:['rgba(233,69,96,.6)','rgba(6,214,160,.6)','rgba(255,179,71,.6)'],
-            borderColor:['#e94560','#06d6a0','#ffb347'],borderWidth:2}]},
-    options:{responsive:true,cutout:'65%',
-        plugins:{legend:{position:'bottom',labels:{color:'#aaa',padding:16}}}}
-});
-
-const cats = {};
-IDEAS.forEach(i=>{cats[i.category]=(cats[i.category]||0)+1});
-new Chart(document.getElementById('chCat'), {
-    type:'polarArea',
-    data:{labels:Object.keys(cats).map(c=>CAT_LABELS[c]||c),
-        datasets:[{data:Object.values(cats),
-            backgroundColor:Object.keys(cats).map(c=>(CAT_COLORS[c]||'#888')+'b0'),
-            borderColor:Object.keys(cats).map(c=>CAT_COLORS[c]||'#888'),borderWidth:1}]},
-    options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#aaa',padding:10,font:{size:11}}}},
-        scales:{r:{ticks:{color:'#555',backdropColor:'transparent'},grid:{color:darkGrid}}}}
-});
-
-/* ──── AUTO REFRESH ──── */
-setInterval(()=>{
-    document.getElementById('ts').textContent = new Date().toLocaleString('pt-PT',{timeZone:'UTC',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) + ' UTC';
-}, 60000);
-</script>
-</body>
-</html>
+<header><h1>🚀 Innovation Pipeline Dashboard</h1><p>Generated 2026-04-19 11:34 UTC</p></header>
+<div class="kpi"><span class="val">25</span><br>Total Ideas</div>
+<div class="kpi"><span class="val">17</span><br>Dispatched</div>
+<div class="kpi"><span class="val">8</span><br>Pending</div>
+<div class="kpi"><span class="val">99</span><br>Top Score</div>
+<div class="kpi"><span class="val">97.5</span><br>Avg Score</div>
+<div class="alert"><strong>Active Alerts</strong><ul>
+<li>⚠️ AI Wallet Agent Banking: HIGH risk, Sprint 0 for 55 days</li>
+<li>⏰ Micro-Learning Platform: Sprint 0 for 32 days – needs acceleration</li>
+<li>⏰ AI Auth System: Sprint 0 for 56 days</li>
+<li>📉 AI Auth System (Legacy): trending down (score 58) – BLOCKED</li>
+<li>⏰ Agent Security Platform: Only 8% progress after 36 days</li>
+</ul></div>
+<h2>🏆 Ideas Ranked by Score</h2>
+<table><thead><tr><th>#</th><th>Idea</th><th>Category</th><th>Score</th><th>Signals</th><th>Status</th></tr></thead><tbody>
+<tr><td>1</td><td>Agent Governance Firewall</td><td>AI Safety & Governance</td><td>99</td><td>0</td><td>approved</td></tr>
+<tr><td>2</td><td>AI Supply Chain Shield</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>3</td><td>DeepVerify Enterprise API</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>4</td><td>Model Router SaaS</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>5</td><td>AI Observability Platform</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>6</td><td>Edge AI Model Compiler</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>7</td><td>Agent Testing & QA Platform</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>8</td><td>Edge AI Inference Network</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>9</td><td>AI Supply Chain Shield</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>10</td><td>DeepVerify Enterprise API</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>11</td><td>Model Router SaaS</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>12</td><td>AI Observability Platform</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>13</td><td>Edge AI Model Compiler</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>14</td><td>Agent Testing & QA Platform</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>15</td><td>Edge AI Inference Network</td><td>other</td><td>99</td><td>0</td><td>generated</td></tr>
+<tr><td>16</td><td>SMB AI Adoption Platform</td><td>other</td><td>98</td><td>0</td><td>new</td></tr>
+<tr><td>17</td><td>Synthetic Media Detection API</td><td>other</td><td>98</td><td>0</td><td>new</td></tr>
+<tr><td>18</td><td>Real-Time KYC Verification Network</td><td>other</td><td>96</td><td>0</td><td>new</td></tr>
+<tr><td>19</td><td>Edge AI Chip Optimizer</td><td>other</td><td>95</td><td>0</td><td>new</td></tr>
+<tr><td>20</td><td>SMB AI Onboarding Platform</td><td>other</td><td>95</td><td>0</td><td>new</td></tr>
+<tr><td>21</td><td>AI Procurement Engine</td><td>other</td><td>95</td><td>0</td><td>new</td></tr>
+<tr><td>22</td><td>Real-Time KYC Network</td><td>other</td><td>95</td><td>0</td><td>new</td></tr>
+<tr><td>23</td><td>Agent Orchestration Hub</td><td>other</td><td>95</td><td>0</td><td>new</td></tr>
+<tr><td>24</td><td>Agent Testing Framework</td><td>other</td><td>95</td><td>0</td><td>new</td></tr>
+<tr><td>25</td><td>AI Compliance-as-a-Service</td><td>other</td><td>90</td><td>0</td><td>new</td></tr>
+</tbody></table>
+<h2>✅ Dispatched Projects</h2>
+<table><thead><tr><th>#</th><th>Project</th><th>Score</th><th>Dispatched</th></tr></thead><tbody>
+<tr><td>1</td><td>Clawdbot Cloud</td><td>97</td><td>2026-04-06 09:28</td></tr>
+<tr><td>2</td><td>AI Skills Learning</td><td>96</td><td>2026-04-06 09:28</td></tr>
+<tr><td>3</td><td>AI Talent Marketplace</td><td>95</td><td>2026-04-06 09:28</td></tr>
+<tr><td>4</td><td>Agent Security Platform</td><td>94</td><td>2026-04-06 09:28</td></tr>
+<tr><td>5</td><td>Tech Trends Newsletter</td><td>94</td><td>2026-04-06 09:28</td></tr>
+<tr><td>6</td><td>Micro-Learning Platform</td><td>93</td><td>2026-04-06 09:28</td></tr>
+<tr><td>7</td><td>Multi-Agent Fraud Detection</td><td>91</td><td>2026-04-06 09:28</td></tr>
+<tr><td>8</td><td>AI Governance SaaS</td><td>88</td><td>2026-04-06 09:28</td></tr>
+<tr><td>9</td><td>Vibe Coding Agency</td><td>87</td><td>2026-04-06 09:28</td></tr>
+<tr><td>10</td><td>AI Wallet Agent Banking</td><td>85</td><td>2026-04-06 09:28</td></tr>
+<tr><td>11</td><td>AI Auth System</td><td>84</td><td>2026-04-06 09:28</td></tr>
+<tr><td>12</td><td>Integração Tools Ideation</td><td>82</td><td>2026-04-06 09:28</td></tr>
+<tr><td>13</td><td>Sistema Templates</td><td>82</td><td>2026-04-06 09:28</td></tr>
+<tr><td>14</td><td>Model Router SaaS</td><td>99</td><td>2026-04-06 16:25</td></tr>
+<tr><td>15</td><td>Edge AI Model Compiler</td><td>99</td><td>2026-04-06 16:25</td></tr>
+<tr><td>16</td><td>AI Observability Platform</td><td>99</td><td>2026-04-06 16:25</td></tr>
+<tr><td>17</td><td>AI Supply Chain Shield</td><td>99</td><td>2026-04-09 02:09</td></tr>
+</tbody></table>
+</body></html>
