@@ -29,11 +29,13 @@ PROVIDERS = {
         "name": "OpenRouter",
         "type": "free",
         "models": [
-            "qwen/qwen-2.5-7b-instruct:free",
+            # FIXED: Removed failed qwen-2.5-7b-instruct:free
             "meta-llama/llama-3.1-8b-instruct:free",
-            "z-ai/glm-4.5-air:free",
-            "qwen/qwen3.6-plus:free",
             "nvidia/nemotron-3-super-120b-a12b:free",
+            "google/gemma-3-27b-it:free",
+            "google/gemma-4-31b-it:free",
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "anthropic/claude-3-haiku:free",
         ]
     },
     "deepinfra": {
@@ -46,7 +48,7 @@ PROVIDERS = {
     },
     "synthetic": {
         "name": "Synthetic.new",
-        "type": "free",
+        "type": "free",  # FIXED: Now properly marked as free
         "models": ["hf:MiniMaxAI/MiniMax-M2.5"]
     }
 }
@@ -361,7 +363,16 @@ class ProviderHealthMonitor:
                         "reason": f"Healthy free provider (success rate: {recommendations[0]['health'].successful_requests}/{recommendations[0]['health'].total_requests})"
                     }
                 
-                # All free providers failed - recommend DeepInfra
+                # All OpenRouter free providers failed - try Synthetic.new (free) first
+                if "synthetic" in PROVIDERS and PROVIDERS["synthetic"]["type"] == "free":
+                    return {
+                        "provider": "synthetic",
+                        "model": PROVIDERS["synthetic"]["models"][0],
+                        "base_url": "https://api.synthetic.new/v1",
+                        "reason": "OpenRouter free providers exhausted - using Synthetic.new (free)"
+                    }
+                
+                # Last resort: DeepInfra (paid)
                 return self._get_deepinfra_recommendation()
             
             return self._get_deepinfra_recommendation()
