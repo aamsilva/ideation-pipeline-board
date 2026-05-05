@@ -111,7 +111,7 @@
         /* === VIDEO CARDS === */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 24px;
             margin-top: 40px;
         }
@@ -120,13 +120,67 @@
             background: var(--bg-surface);
             border: 1px solid var(--border-standard);
             border-radius: 12px;
-            padding: 24px;
+            overflow: hidden;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .video-card:hover {
             background: var(--bg-secondary);
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-overlay span {
+            font-size: 48px;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .video-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
         .video-card .channel {
@@ -146,11 +200,35 @@
             margin-bottom: 12px;
         }
 
+        .video-card .title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .video-card .title a:hover {
+            color: var(--accent-hover);
+        }
+
         .video-card .meta {
             font-size: 13px;
             color: var(--text-quaternary);
             display: flex;
             gap: 16px;
+            flex-wrap: wrap;
+            margin-top: auto;
+            padding-top: 12px;
+        }
+
+        .video-card .meta a {
+            color: var(--accent-violet);
+            text-decoration: none;
+            font-weight: 510;
+            transition: color 0.2s;
+        }
+
+        .video-card .meta a:hover {
+            color: var(--accent-hover);
         }
 
         .score-badge {
@@ -334,39 +412,57 @@
             
             <div class="video-grid">
                 <div class="video-card">
-                    <div class="channel">🏛️ KURZGESAGT</div>
-                    <div class="title"><a href="https://www.youtube.com/watch?v=D0WQK7cMJn8" target="_blank" style="color: var(--text-primary); text-decoration: none;">We Made A New Channel! (Night Shift)</a></div>
-                    <div class="meta">
-                        <span>📅 2026-05-05</span>
-                        <span>📝 428 palavras</span>
-                        <span>⏱️ 2:34</span>
-                        <span style="margin-left: auto;"><a href="https://www.youtube.com/watch?v=D0WQK7cMJn8" target="_blank" style="color: var(--accent-violet); font-size: 12px; text-decoration: none;">▶ Watch on YouTube</a></span>
+                    <a href="https://www.youtube.com/watch?v=D0WQK7cMJn8" target="_blank" class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/D0WQK7cMJn8/maxresdefault.jpg" alt="Kurzgesagt Night Shift thumbnail">
+                        <div class="play-overlay"><span>▶</span></div>
+                    </a>
+                    <div class="video-info">
+                        <div class="channel">🏛️ KURZGESAGT</div>
+                        <div class="title"><a href="https://www.youtube.com/watch?v=D0WQK7cMJn8" target="_blank">We Made A New Channel! (Night Shift)</a></div>
+                        <div class="meta">
+                            <span>📅 2026-05-05</span>
+                            <span>📝 428 palavras</span>
+                            <span>⏱️ 2:34</span>
+                            <span style="margin-left: auto;"><a href="https://www.youtube.com/watch?v=D0WQK7cMJn8" target="_blank">▶ Watch on YouTube</a></span>
+                        </div>
+                        <div class="score-badge">RELEVÂNCIA: 85/100</div>
                     </div>
-                    <div class="score-badge">RELEVÂNCIA: 85/100</div>
                 </div>
 
                 <div class="video-card">
-                    <div class="channel">🧬 TWO MINUTE PAPERS</div>
-                    <div class="title"><a href="https://youtube.com/watch?v=QzZ4VwDHAT4" target="_blank" style="color: var(--text-primary); text-decoration: none;">Sakana AI's God Simulator Is Brilliant</a></div>
-                    <div class="meta">
-                        <span>📅 2026-05-05</span>
-                        <span>📝 1036 palavras</span>
-                        <span>⏱️ 5:00+</span>
-                        <span style="margin-left: auto;"><a href="https://youtube.com/watch?v=QzZ4VwDHAT4" target="_blank" style="color: var(--accent-violet); font-size: 12px; text-decoration: none;">▶ Watch on YouTube</a></span>
+                    <a href="https://youtube.com/watch?v=QzZ4VwDHAT4" target="_blank" class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/QzZ4VwDHAT4/maxresdefault.jpg" alt="Sakana AI God Simulator thumbnail">
+                        <div class="play-overlay"><span>▶</span></div>
+                    </a>
+                    <div class="video-info">
+                        <div class="channel">🧬 TWO MINUTE PAPERS</div>
+                        <div class="title"><a href="https://youtube.com/watch?v=QzZ4VwDHAT4" target="_blank">Sakana AI's God Simulator Is Brilliant</a></div>
+                        <div class="meta">
+                            <span>📅 2026-05-05</span>
+                            <span>📝 1036 palavras</span>
+                            <span>⏱️ 5:00+</span>
+                            <span style="margin-left: auto;"><a href="https://youtube.com/watch?v=QzZ4VwDHAT4" target="_blank">▶ Watch on YouTube</a></span>
+                        </div>
+                        <div class="score-badge">RELEVÂNCIA: 92/100</div>
                     </div>
-                    <div class="score-badge">RELEVÂNCIA: 92/100</div>
                 </div>
 
                 <div class="video-card">
-                    <div class="channel">⚡ FIRESHIP</div>
-                    <div class="title"><a href="https://www.youtube.com/watch?v=jeA-KBv0b68" target="_blank" style="color: var(--text-primary); text-decoration: none;">Claude just got another superpower...</a></div>
-                    <div class="meta">
-                        <span>📅 2026-05-05</span>
-                        <span>📝 1058 palavras</span>
-                        <span>⏱️ 5:00+</span>
-                        <span style="margin-left: auto;"><a href="https://www.youtube.com/watch?v=jeA-KBv0b68" target="_blank" style="color: var(--accent-violet); font-size: 12px; text-decoration: none;">▶ Watch on YouTube</a></span>
+                    <a href="https://www.youtube.com/watch?v=jeA-KBv0b68" target="_blank" class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/jeA-KBv0b68/maxresdefault.jpg" alt="Fireship Claude superpower thumbnail">
+                        <div class="play-overlay"><span>▶</span></div>
+                    </a>
+                    <div class="video-info">
+                        <div class="channel">⚡ FIRESHIP</div>
+                        <div class="title"><a href="https://www.youtube.com/watch?v=jeA-KBv0b68" target="_blank">Claude just got another superpower...</a></div>
+                        <div class="meta">
+                            <span>📅 2026-05-05</span>
+                            <span>📝 1058 palavras</span>
+                            <span>⏱️ 5:00+</span>
+                            <span style="margin-left: auto;"><a href="https://www.youtube.com/watch?v=jeA-KBv0b68" target="_blank">▶ Watch on YouTube</a></span>
+                        </div>
+                        <div class="score-badge">RELEVÂNCIA: 98/100</div>
                     </div>
-                    <div class="score-badge">RELEVÂNCIA: 98/100</div>
                 </div>
             </div>
         </section>
