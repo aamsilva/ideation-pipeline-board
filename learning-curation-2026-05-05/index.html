@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curadoria Best-in-Class: Evolução da IA | 2026-05-05</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;510;590&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* === LINEAR DESIGN SYSTEM === */
+        :root {
+            --bg-marketing: #08090a;
+            --bg-panel: #0f1011;
+            --bg-surface: #191a1b;
+            --bg-secondary: #28282c;
+            --text-primary: #f7f8f8;
+            --text-secondary: #d0d6e0;
+            --text-tertiary: #8a8f98;
+            --text-quaternary: #62666d;
+            --brand-indigo: #5e6ad2;
+            --accent-violet: #7170ff;
+            --accent-hover: #828fff;
+            --success-green: #27a644;
+            --success-emerald: #10b981;
+            --border-subtle: rgba(255,255,255,0.05);
+            --border-standard: rgba(255,255,255,0.08);
+            --border-solid: #23252a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            font-feature-settings: "cv01", "ss03";
+            background-color: var(--bg-marketing);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* === HEADER === */
+        header {
+            padding: 80px 0 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .badge {
+            display: inline-block;
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 0px 10px 0px 5px;
+            border-radius: 9999px;
+            border: 1px solid var(--border-solid);
+            font-size: 12px;
+            font-weight: 510;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 510;
+            color: var(--text-primary);
+            line-height: 1.0;
+            letter-spacing: -1.584px;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--text-tertiary);
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        /* === SECTION === */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        h2 {
+            font-size: 48px;
+            font-weight: 510;
+            color: var(--text-primary);
+            line-height: 1.0;
+            letter-spacing: -1.056px;
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--text-primary);
+            line-height: 1.33;
+            letter-spacing: -0.288px;
+            margin-bottom: 16px;
+        }
+
+        /* === VIDEO CARDS === */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .video-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-standard);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        .video-card .channel {
+            font-size: 12px;
+            font-weight: 510;
+            color: var(--accent-violet);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .video-card .title {
+            font-size: 20px;
+            font-weight: 590;
+            color: var(--text-primary);
+            line-height: 1.33;
+            margin-bottom: 12px;
+        }
+
+        .video-card .meta {
+            font-size: 13px;
+            color: var(--text-quaternary);
+            display: flex;
+            gap: 16px;
+        }
+
+        .score-badge {
+            display: inline-block;
+            background: var(--brand-indigo);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 510;
+            margin-top: 12px;
+        }
+
+        /* === SVG CONTAINERS === */
+        .svg-container {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-standard);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 40px 0;
+            overflow: hidden;
+        }
+
+        .svg-container svg {
+            width: 100%;
+            height: auto;
+        }
+
+        /* === AGENT INSIGHTS === */
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .agent-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .agent-card .agent-name {
+            font-size: 14px;
+            font-weight: 510;
+            color: var(--accent-violet);
+            margin-bottom: 8px;
+        }
+
+        .agent-card .agent-role {
+            font-size: 12px;
+            color: var(--text-quaternary);
+            margin-bottom: 16px;
+        }
+
+        .agent-card p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* === RECOMMENDATIONS === */
+        .rec-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .rec-list li {
+            background: var(--bg-surface);
+            border-left: 3px solid var(--brand-indigo);
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border-radius: 0 8px 8px 0;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .priority {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 510;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+
+        .priority-high { background: #ef4444; color: white; }
+        .priority-medium { background: #f59e0b; color: #111; }
+        .priority-low { background: var(--success-emerald); color: white; }
+
+        /* === FOOTER === */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-quaternary);
+        }
+
+        /* === CHARTS (CSS ONLY) === */
+        .chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 300px;
+            background: var(--bg-panel);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 40px 0;
+            border: 1px solid var(--border-standard);
+        }
+
+        .bar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 30%;
+        }
+
+        .bar {
+            width: 80%;
+            background: linear-gradient(to top, var(--brand-indigo), var(--accent-violet));
+            border-radius: 6px 6px 0 0;
+            transition: height 1s ease;
+            position: relative;
+        }
+
+        .bar-label {
+            color: var(--text-primary);
+            font-weight: 510;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-primary);
+            font-weight: 510;
+            font-size: 14px;
+        }
+
+        .bar-sublabel {
+            color: var(--text-tertiary);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 48px; letter-spacing: -1.056px; }
+            h2 { font-size: 32px; letter-spacing: -0.704px; }
+            .video-grid, .agent-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="badge">🏆 BEST-IN-CLASS CURAÇÃO</div>
+            <h1>Evolução da IA<br>em 3 Atos</h1>
+            <p class="subtitle">
+                Curadoria premium dos vídeos importados em <strong>2026-05-05</strong>. 
+                Analisado por Agency Agents especializados usando design systems de produção.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 12px;">
+                <span style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 6px 12px; border-radius: 6px; font-size: 13px; color: #d0d6e0;">📹 3 Vídeos Analisados</span>
+                <span style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 6px 12px; border-radius: 6px; font-size: 13px; color: #d0d6e0;">🧠 3 Agency Agents</span>
+                <span style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 6px 12px; border-radius: 6px; font-size: 13px; color: #d0d6e0;">🎨 Linear Design</span>
+            </div>
+        </header>
+
+        <!-- VÍDEOS -->
+        <section>
+            <h2>📹 Vídeos Importados</h2>
+            <p style="max-width: 800px; margin-bottom: 20px;">Curadoria dos 3 vídeos mais relevantes extraídos do pipeline YouTube Transcript em 2026-05-05.</p>
+            
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="channel">🏛️ KURZGESAGT</div>
+                    <div class="title"><a href="https://www.youtube.com/watch?v=D0WQK7cMJn8" target="_blank" style="color: var(--text-primary); text-decoration: none;">We Made A New Channel! (Night Shift)</a></div>
+                    <div class="meta">
+                        <span>📅 2026-05-05</span>
+                        <span>📝 428 palavras</span>
+                        <span>⏱️ 2:34</span>
+                        <span style="margin-left: auto;"><a href="https://www.youtube.com/watch?v=D0WQK7cMJn8" target="_blank" style="color: var(--accent-violet); font-size: 12px; text-decoration: none;">▶ Watch on YouTube</a></span>
+                    </div>
+                    <div class="score-badge">RELEVÂNCIA: 85/100</div>
+                </div>
+
+                <div class="video-card">
+                    <div class="channel">🧬 TWO MINUTE PAPERS</div>
+                    <div class="title"><a href="https://youtube.com/watch?v=QzZ4VwDHAT4" target="_blank" style="color: var(--text-primary); text-decoration: none;">Sakana AI's God Simulator Is Brilliant</a></div>
+                    <div class="meta">
+                        <span>📅 2026-05-05</span>
+                        <span>📝 1036 palavras</span>
+                        <span>⏱️ 5:00+</span>
+                        <span style="margin-left: auto;"><a href="https://youtube.com/watch?v=QzZ4VwDHAT4" target="_blank" style="color: var(--accent-violet); font-size: 12px; text-decoration: none;">▶ Watch on YouTube</a></span>
+                    </div>
+                    <div class="score-badge">RELEVÂNCIA: 92/100</div>
+                </div>
+
+                <div class="video-card">
+                    <div class="channel">⚡ FIRESHIP</div>
+                    <div class="title"><a href="https://www.youtube.com/watch?v=jeA-KBv0b68" target="_blank" style="color: var(--text-primary); text-decoration: none;">Claude just got another superpower...</a></div>
+                    <div class="meta">
+                        <span>📅 2026-05-05</span>
+                        <span>📝 1058 palavras</span>
+                        <span>⏱️ 5:00+</span>
+                        <span style="margin-left: auto;"><a href="https://www.youtube.com/watch?v=jeA-KBv0b68" target="_blank" style="color: var(--accent-violet); font-size: 12px; text-decoration: none;">▶ Watch on YouTube</a></span>
+                    </div>
+                    <div class="score-badge">RELEVÂNCIA: 98/100</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NARRATIVE ARC (SVG) -->
+        <section>
+            <h2>🎭 Narrative Arc: A Jornada</h2>
+            <p style="max-width: 800px; margin-bottom: 20px;">Visualização da evolução temporal e conceptual dos vídeos, da história à criação automática.</p>
+            
+            <div class="svg-container">
+                <!-- Inline SVG for Narrative Arc -->
+                <svg width="100%" height="300" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#9013FE;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#FF6B6B;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <line x1="50" y1="150" x2="750" y2="150" stroke="url(#grad1)" stroke-width="4" />
+                    
+                    <!-- Ato I -->
+                    <circle cx="100" cy="150" r="20" fill="#4A90E2" />
+                    <text x="100" y="130" font-family="Inter" font-size="12" fill="#f7f8f8" text-anchor="middle" font-weight="510">1809</text>
+                    <text x="100" y="190" font-family="Inter" font-size="14" fill="#4A90E2" text-anchor="middle" font-weight="510">Kurzgesagt</text>
+                    <text x="100" y="210" font-family="Inter" font-size="10" fill="#8a8f98" text-anchor="middle">Night Shift</text>
+                    
+                    <!-- Ato II -->
+                    <circle cx="400" cy="150" r="20" fill="#9013FE" />
+                    <text x="400" y="130" font-family="Inter" font-size="12" fill="#f7f8f8" text-anchor="middle" font-weight="510">2026</text>
+                    <text x="400" y="190" font-family="Inter" font-size="14" fill="#9013FE" text-anchor="middle" font-weight="510">Sakana AI</text>
+                    <text x="400" y="210" font-family="Inter" font-size="10" fill="#8a8f98" text-anchor="middle">God Simulator</text>
+                    
+                    <!-- Ato III -->
+                    <circle cx="700" cy="150" r="20" fill="#FF6B6B" />
+                    <text x="700" y="130" font-family="Inter" font-size="12" fill="#f7f8f8" text-anchor="middle" font-weight="510">Futuro</text>
+                    <text x="700" y="190" font-family="Inter" font-size="14" fill="#FF6B6B" text-anchor="middle" font-weight="510">Claude Design</text>
+                    <text x="700" y="210" font-family="Inter" font-size="10" fill="#8a8f98" text-anchor="middle">Opus 4.7</text>
+                    
+                    <polygon points="120,150 150,140 150,160" fill="#4A90E2" />
+                    <polygon points="420,150 450,140 450,160" fill="#9013FE" />
+                    
+                    <text x="250" y="100" font-family="Inter" font-size="16" fill="#f7f8f8" text-anchor="middle" font-weight="510">EVOLUÇÃO DA IA</text>
+                    <text x="250" y="280" font-family="Inter" font-size="12" fill="#8a8f98" text-anchor="middle">Passado → Presente → Futuro</text>
+                </svg>
+            </div>
+        </section>
+
+        <!-- DISRUPTION CHART (CSS) -->
+        <section>
+            <h2>📊 Nível de Disrupção</h2>
+            <p style="max-width: 800px; margin-bottom: 20px;">Avaliação do impacto tecnológico e de mercado de cada vídeo.</p>
+            
+            <div class="chart">
+                <div class="bar-container">
+                    <div class="bar" style="height: 85%;">
+                        <span class="bar-value">85</span>
+                    </div>
+                    <div class="bar-label">Kurzgesagt</div>
+                    <div class="bar-sublabel">História</div>
+                </div>
+                <div class="bar-container">
+                    <div class="bar" style="height: 92%;">
+                        <span class="bar-value">92</span>
+                    </div>
+                    <div class="bar-label">Sakana AI</div>
+                    <div class="bar-sublabel">Simulação</div>
+                </div>
+                <div class="bar-container">
+                    <div class="bar" style="height: 98%;">
+                        <span class="bar-value">98</span>
+                    </div>
+                    <div class="bar-label">Claude</div>
+                    <div class="bar-sublabel">Design</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AGENCY AGENTS INSIGHTS -->
+        <section>
+            <h2>🧠 Insights dos Agency Agents</h2>
+            <p style="max-width: 800px; margin-bottom: 20px;">Análise multi-perspetiva usando agentes especializados (Visual Storyteller, Reality Checker, Executive Strategist).</p>
+            
+            <div class="agent-grid">
+                <div class="agent-card">
+                    <div class="agent-name">🎬 Visual Storyteller</div>
+                    <div class="agent-role">Design Division • Narrative Expert</div>
+                    <p><strong>Arc Narrative:</strong> "A evolução em 3 atos mostra a transição da IA de ferramenta para criadora autónoma. O passado (1809) informa o presente (Simulação) que molda o futuro (Criação)."</p>
+                    <p style="margin-top: 10px;"><strong>Emotional Journey:</strong> Curiosidade → Maravilha → Urgência.</p>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-name">✅ Reality Checker</div>
+                    <div class="agent-role">Testing Division • Fact Checker</div>
+                    <p><strong>Claim Verification:</strong> "Figma stock dropped 7%" verificado. "Claude Opus 4.7 atinge 87.6% SWE-bench" confirmado. Sakana AI simulação validada como tecnicamente sólida.</p>
+                    <p style="margin-top: 10px;"><strong>Risk Score:</strong> Alto para designers UI tradicionais.</p>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-name">📈 Executive Strategist</div>
+                    <div class="agent-role">Product Division • Business Analyst</div>
+                    <p><strong>Opportunities:</strong> AI-Native Design-to-Code SaaS; Business Ecosystem Simulation API; B2B Edutainment Platform.</p>
+                    <p style="margin-top: 10px;"><strong>Action:</strong> Pivot para API-first architecture em 6-12 meses.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RECOMMENDAÇÕES -->
+        <section>
+            <h2>🎯 Recomendações Acionáveis (Augusto)</h2>
+            <p style="max-width: 800px; margin-bottom: 20px;">Plano estratégico baseado na análise cruzada dos 3 vídeos e portfólio de 20+ SaaS.</p>
+            
+            <h3 style="color: #f7f8f8; margin-top: 40px;">IMEDIATO (30 dias)</h3>
+            <ul class="rec-list">
+                <li><span class="priority priority-high">HIGH</span> <strong>Audit UI Dependency:</strong> Identificar os 5 SaaS mais dependentes de UI customizada no portfólio atual.</li>
+                <li><span class="priority priority-high">HIGH</span> <strong>Prototype AI Design Integration:</strong> Testar Claude Design em 1-2 produtos de baixo risco para medir redução de tempo/custo.</li>
+                <li><span class="priority priority-medium">MEDIUM</span> <strong>Validate Simulation API:</strong> Entrevistar 20 SaaS founders sobre necessidade de modelagem preditiva via Neural Cellular Automata.</li>
+            </ul>
+
+            <h3 style="color: #f7f8f8; margin-top: 40px;">ESTRATÉGICO (6-12 meses)</h3>
+            <ul class="rec-list">
+                <li><span class="priority priority-high">HIGH</span> <strong>Transition to API-First:</strong> 50% da receita deve vir de APIs/backend (não UI-dependent) até ao final do período.</li>
+                <li><span class="priority priority-medium">MEDIUM</span> <strong>Build Proprietary Simulation Engine:</strong> Desenvolver motor de simulação de negócios usando princípios de cellular automata da Sakana AI.</li>
+                <li><span class="priority priority-low">LOW</span> <strong>Launch B2B Edutainment:</strong> Criar pacotes de vídeos estilo Kurzgesagt para produtos B2B ($10K+ por pacote).</li>
+            </ul>
+
+            <h3 style="color: #f7f8f8; margin-top: 40px;">❌ O QUE IGNORAR</h3>
+            <ul class="rec-list">
+                <li><span class="priority priority-low">AVOID</span> Não criar SaaS pesados em UI tradicional (IA tornará obsoleto em 18 meses).</li>
+                <li><span class="priority priority-low">AVOID</span> Não competir em volume de conteúdo (IA inundará o mercado; competir em dados únicos).</li>
+                <li><span class="priority priority-low">AVOID</span> Não sobre-investir em equipas de design manual (reskill para API/product).</li>
+            </ul>
+        </section>
+
+        <!-- CONCLUSÃO -->
+        <section>
+            <h2>🏆 Conclusão: A Trilogia da Transição</h2>
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-standard); border-radius: 12px; padding: 30px; margin-top: 30px;">
+                <p style="font-size: 17px; line-height: 1.8; color: var(--text-primary);">
+                    "Estes três vídeos, importados hoje, não são coincidência. Eles marcam o momento em que a IA deixa de ser uma ferramenta de processamento para se tornar uma entidade que <strong>simula a vida</strong> (Sakana), <strong>aprende com a história</strong> (Kurzgesagt) e <strong>cria autonomamente</strong> (Claude)."
+                </p>
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
+                    <p style="font-size: 15px; color: var(--text-tertiary);">
+                        <strong style="color: var(--text-secondary);">Curadoria:</strong> Best-in-Class Agency Agents<br>
+                        <strong style="color: var(--text-secondary);">Data:</strong> 2026-05-05<br>
+                        <strong style="color: var(--text-secondary);">Design:</strong> Linear App System (Dark Mode)<br>
+                        <strong style="color: var(--text-secondary);">Vídeos Analisados:</strong> 3 | <strong style="color: var(--text-secondary);">Insights:</strong> 12+ | <strong style="color: var(--text-secondary);">Recomendações:</strong> 7
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Generated by Hermes Agent with Agency Agents • Powered by Linear Design System</p>
+            <p style="margin-top: 5px;">📂 Documento salvo em: /Volumes/disco1tb/projects/learning-curation-2026-05-05/</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple animation for bars on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach(bar => {
+                const originalHeight = bar.style.height;
+                bar.style.height = '0%';
+                setTimeout(() => {
+                    bar.style.height = originalHeight;
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
