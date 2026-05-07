@@ -1,0 +1,50 @@
+{
+  "tasks": {
+    "task-1778097828137-o1omlv": {
+      "taskId": "task-1778097828137-o1omlv",
+      "type": "research",
+      "description": "Research NMS integration protocols (SNMP/NetConf/YANG) for submarine cable monitoring, focus on HMN project requirements",
+      "priority": "normal",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "agent-1778097644463-oqv1a3"
+      ],
+      "tags": [],
+      "createdAt": "2026-05-06T20:03:48.137Z",
+      "startedAt": "2026-05-06T20:09:23.876Z",
+      "completedAt": "2026-05-07T22:36:57.295762+00:00"
+    },
+    "task-1778107040348-1d7iu7": {
+      "taskId": "task-1778107040348-1d7iu7",
+      "type": "research",
+      "description": "Research NMS integration protocols (SNMP/NetConf/YANG) for submarine cable monitoring, ITU-T G.8000 standards, OTDR/FBG sensor technologies",
+      "priority": "normal",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "agent-1778107013088-9cpvej"
+      ],
+      "tags": [],
+      "createdAt": "2026-05-06T22:37:20.348Z",
+      "startedAt": "2026-05-06T22:37:29.468Z",
+      "completedAt": "2026-05-07T22:36:57.295762+00:00"
+    },
+    "task-1778107680498-uvfiv1": {
+      "taskId": "task-1778107680498-uvfiv1",
+      "type": "research",
+      "description": "Research best practices for Network Management System integration with submarine cable monitoring. Identify APIs, protocols (SNMP, Netconf, REST), and data models needed.",
+      "priority": "normal",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "agent-1778107410486-sacfj4"
+      ],
+      "tags": [],
+      "createdAt": "2026-05-06T22:48:00.498Z",
+      "startedAt": "2026-05-06T22:49:04.626Z",
+      "completedAt": "2026-05-07T22:36:57.295762+00:00"
+    }
+  },
+  "version": "3.0.0"
+}
