@@ -121,7 +121,7 @@ def create_phase2_tasks(protocols):
     # Task 3: OTDR/FBG (se detetado)
     if protocols.get('OTDR') or protocols.get('FBG'):
         log("CRIANDO: Task Optical Probe Processing para hmn-analyst")
-        cmd = f"cd {PROJECT_DIR} && /usr/local/bin/ruflo task create --type analysis --name 'Fase2: Optical Probe Data Processing' --description 'Processar dados OTDR/FBG das sondas HMN' --swarm {SWARM_ID} --assigned-agent agent-1778097870487-1coy25 --non-interactive"
+        cmd = f"cd {PROJECT_DIR} && /usr/local/bin/ruflo task create --type implementation --name 'Fase2: Optical Probe Data Processing' --description 'Processar dados OTDR/FBG das sondas HMN' --swarm {SWARM_ID} --assigned-agent agent-1778097870487-1coy25 --non-interactive"
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=120)
         if result.returncode == 0:
             tasks_created.append("Optical Probe Processing")
