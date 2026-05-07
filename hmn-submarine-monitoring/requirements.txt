@@ -1,0 +1,15 @@
+# HMN Submarine Monitoring - Dependências
+# Core dependencies
+pysnmp>=6.1.0
+pysnmp-lextudio>=6.1.0
+ncclient>=0.6.15
+xmltodict>=0.13.0
+numpy>=1.24.0
+
+# Optional: for advanced processing
+# matplotlib>=3.7.0  # For plotting OTDR graphs
+# pandas>=2.0.0      # For data analysis
+
+# Testing
+# pytest>=7.4.0
+# pytest-cov>=4.1.0
