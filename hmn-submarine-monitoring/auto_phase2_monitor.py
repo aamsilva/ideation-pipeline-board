@@ -99,8 +99,8 @@ def create_phase2_tasks(protocols):
     # Task 1: SNMP (se detetado)
     if protocols.get('SNMP'):
         log("CRIANDO: Task SNMP Integration para hmn-coder")
-        cmd = f"cd {PROJECT_DIR} && npx ruflo@latest task create --type implementation --name 'Fase2: SNMP Integration' --description 'Implementar SNMP poller para NMS usando pysnmp baseado no research' --swarm {SWARM_ID} --assigned-agent agent-1778097772903-ppipho --non-interactive"
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=60)
+        cmd = f"cd {PROJECT_DIR} && /usr/local/bin/ruflo task create --type implementation --name 'Fase2: SNMP Integration' --description 'Implementar SNMP poller para NMS usando pysnmp baseado no research' --swarm {SWARM_ID} --assigned-agent agent-1778097772903-ppipho --non-interactive"
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=120)
         if result.returncode == 0:
             tasks_created.append("SNMP Integration")
             log("✓ Task SNMP criada")
@@ -110,8 +110,8 @@ def create_phase2_tasks(protocols):
     # Task 2: NetConf/YANG (se detetado)
     if protocols.get('NetConf') or protocols.get('YANG'):
         log("CRIANDO: Task NetConf/YANG Integration para hmn-coder")
-        cmd = f"cd {PROJECT_DIR} && npx ruflo@latest task create --type implementation --name 'Fase2: NetConf/YANG Integration' --description 'Implementar NetConf client com YANG models baseado no research' --swarm {SWARM_ID} --assigned-agent agent-1778097772903-ppipho --non-interactive"
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=60)
+        cmd = f"cd {PROJECT_DIR} && /usr/local/bin/ruflo task create --type implementation --name 'Fase2: NetConf/YANG Integration' --description 'Implementar NetConf client com YANG models baseado no research' --swarm {SWARM_ID} --assigned-agent agent-1778097772903-ppipho --non-interactive"
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=120)
         if result.returncode == 0:
             tasks_created.append("NetConf/YANG Integration")
             log("✓ Task NetConf/YANG criada")
@@ -121,8 +121,8 @@ def create_phase2_tasks(protocols):
     # Task 3: OTDR/FBG (se detetado)
     if protocols.get('OTDR') or protocols.get('FBG'):
         log("CRIANDO: Task Optical Probe Processing para hmn-analyst")
-        cmd = f"cd {PROJECT_DIR} && npx ruflo@latest task create --type analysis --name 'Fase2: Optical Probe Data Processing' --description 'Processar dados OTDR/FBG das sondas HMN' --swarm {SWARM_ID} --assigned-agent agent-1778097870487-1coy25 --non-interactive"
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=60)
+        cmd = f"cd {PROJECT_DIR} && /usr/local/bin/ruflo task create --type analysis --name 'Fase2: Optical Probe Data Processing' --description 'Processar dados OTDR/FBG das sondas HMN' --swarm {SWARM_ID} --assigned-agent agent-1778097870487-1coy25 --non-interactive"
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=120)
         if result.returncode == 0:
             tasks_created.append("Optical Probe Processing")
             log("✓ Task Optical Probe criada")
