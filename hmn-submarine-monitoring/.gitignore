@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+
+# Node
+node_modules/
+package-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+logs/
+.pytest_cache/
+.swarm/
+.claude-flow/
+.monitor_history.json
+discord_report.txt
+*.log
+
+# Temp files
+*.tmp
+*.bak

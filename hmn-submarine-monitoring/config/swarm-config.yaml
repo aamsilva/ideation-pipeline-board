@@ -1,0 +1,120 @@
+swarm:
+  name: "HMN-Submarine-Monitoring"
+  topology: "hierarchical"
+  maxAgents: 15
+  model: "smart-router"
+  nonInteractive: true
+
+agents:
+  - id: "architect-01"
+    type: "architect"
+    capabilities: ["system-design", "telco-architecture", "itu-t-compliance"]
+    
+  - id: "network-monitor-01"
+    type: "coder"
+    capabilities: ["snmp", "netconf", "yang", "nms-integration"]
+    
+  - id: "fiber-sensor-01"
+    type: "coder"
+    capabilities: ["otdr", "fbg", "dsp", "fiber-sensing"]
+    
+  - id: "data-pipeline-01"
+    type: "coder"
+    capabilities: ["lstm", "prophet", "data-lake", "python"]
+    
+  - id: "ai-analytics-01"
+    type: "analyst"
+    capabilities: ["anomaly-detection", "predictive-maintenance", "rul"]
+    
+  - id: "dashboard-01"
+    type: "coder"
+    capabilities: ["grafana", "chartjs", "html", "css"]
+    
+  - id: "alerting-01"
+    type: "coder"
+    capabilities: ["pagerduty", "webhook", "sla-monitoring"]
+    
+  - id: "qa-telco-01"
+    type: "tester"
+    capabilities: ["itu-t", "99.999-sla", "pentesting", "security"]
+    
+  - id: "researcher-01"
+    type: "researcher"
+    capabilities: ["hmn-cables", "submarine-systems", "telco-standards"]
+    
+  - id: "researcher-02"
+    type: "researcher"
+    capabilities: ["ai-ml-models", "time-series", "fiber-optics"]
+    
+  - id: "documenter-01"
+    type: "coder"
+    capabilities: ["runbooks", "api-docs", "telco-documentation"]
+    
+  - id: "security-architect-01"
+    type: "security-architect"
+    capabilities: ["network-security", "encryption", "access-control"]
+    
+  - id: "performance-engineer-01"
+    type: "performance-engineer"
+    capabilities: ["latency-optimization", "throughput", "qos"]
+    
+  - id: "reviewer-01"
+    type: "reviewer"
+    capabilities: ["code-review", "architecture-review", "compliance-check"]
+    
+  - id: "devops-01"
+    type: "coder"
+    capabilities: ["docker", "kubernetes", "ci-cd", "monitoring"]
+
+tasks:
+  - id: "research-phase"
+    description: "Research HMN submarine cable systems, ITU-T G.8000 series standards, SNMP MIBs for submarine cables, OTDR/FBG sensor technologies"
+    agents: ["researcher-01", "researcher-02"]
+    output: "/Volumes/disco1tb/projects/hmn-submarine-monitoring/data/research-briefing.md"
+    
+  - id: "architecture-design"
+    description: "Design telco-grade architecture with NMS integration (SNMP/NetConf/YANG), sensor data pipeline (OTDR/FBG), AI analytics layer with LSTM/Prophet, and Grafana dashboards. Ensure ITU-T compliance and 99.999% SLA."
+    dependsOn: "research-phase"
+    agents: ["architect-01", "security-architect-01", "performance-engineer-01"]
+    output: "/Volumes/disco1tb/projects/hmn-submarine-monitoring/docs/architecture.md"
+    
+  - id: "nms-integration"
+    description: "Implement NMS integration module with SNMPv3, NetConf/YANG models for submarine cable monitoring. Include polling, trap handling, and device configuration management."
+    dependsOn: "architecture-design"
+    agents: ["network-monitor-01", "data-pipeline-01"]
+    output: "/Volumes/disco1tb/projects/hmn-submarine-monitoring/scripts/nms_integration.py"
+    
+  - id: "sensor-pipeline"
+    description: "Build fiber sensor data pipeline: OTDR trace analysis, FBG wavelength shift processing, DSP for distributed sensing. Output to data lake structure."
+    dependsOn: "architecture-design"
+    agents: ["fiber-sensor-01", "data-pipeline-01"]
+    output: "/Volumes/disco1tb/projects/hmn-submarine-monitoring/scripts/sensor_pipeline.py"
+    
+  - id: "ai-analytics-engine"
+    description: "Develop AI analytics with LSTM for time-series prediction, Prophet for seasonality, anomaly detection algorithms, and Remaining Useful Life (RUL) prediction for cable degradations."
+    dependsOn: "sensor-pipeline"
+    agents: ["ai-analytics-01", "data-pipeline-01"]
+    output: "/Volumes/disco1tb/projects/hmn-submarine-monitoring/scripts/ai_analytics.py"
+    
+  - id: "dashboard-alerting"
+    description: "Create Grafana dashboards for real-time monitoring, PagerDuty integration for alerts, SLA tracking (99.999% uptime), and automated incident response workflows."
+    dependsOn: "ai-analytics-engine"
+    agents: ["dashboard-01", "alerting-01"]
+    output: "/Volumes/disco1tb/projects/hmn-submarine-monitoring/scripts/dashboard_alerting.py"
+    
+  - id: "qa-telco-validation"
+    description: "Perform telco-grade QA: ITU-T G.8000 compliance check, 99.999% SLA validation, penetration testing (network/API), and security audit. Generate penetration test report."
+    dependsOn: "dashboard-alerting"
+    agents: ["qa-telco-01", "security-architect-01", "reviewer-01"]
+    output: "/Volumes/disco1tb/projects/hmn-submarine-monitoring/docs/qa-report.md"
+    
+  - id: "documentation-delivery"
+    description: "Generate complete documentation: runbooks for operations, API documentation, deployment guides, and final project summary with all deliverables."
+    dependsOn: "qa-telco-validation"
+    agents: ["documenter-01", "devops-01"]
+    output: "/Volumes/disco1tb/projects/hmn-submarine-monitoring/docs/final-delivery.md"
+
+karpathy:
+  enabled: true
+  hypothesis: "Multi-agent AI swarm with specialized telco agents can build a submarine cable monitoring platform exceeding 99.999% SLA requirements"
+  experiment: "Deploy 15-agent Ruflo swarm to build complete HMN monitoring system with NMS integration, AI analytics, and telco-grade QA"
