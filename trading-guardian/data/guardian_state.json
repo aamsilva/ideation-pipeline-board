@@ -1,0 +1,116 @@
+{
+  "timestamp": "2026-05-12T01:44:41.162037",
+  "cycle": 472,
+  "paper": {
+    "account": {},
+    "positions": []
+  },
+  "live": {
+    "account": {
+      "cash": 60.47,
+      "buying_power": 60.47,
+      "portfolio_value": 218.56
+    },
+    "positions": [
+      {
+        "symbol": "AAPL",
+        "qty": 0.1253,
+        "current": 292.57,
+        "pnl": 0.502202,
+        "market_value": 0
+      },
+      {
+        "symbol": "ADBE",
+        "qty": 0.1122,
+        "current": 246.0,
+        "pnl": -0.56302,
+        "market_value": 0
+      },
+      {
+        "symbol": "AMD",
+        "qty": 0.0705,
+        "current": 456.3,
+        "pnl": 2.274189,
+        "market_value": 0
+      },
+      {
+        "symbol": "GOOGL",
+        "qty": 0.0724,
+        "current": 388.61,
+        "pnl": -0.654786,
+        "market_value": 0
+      },
+      {
+        "symbol": "INTC",
+        "qty": 0.2627,
+        "current": 127.62,
+        "pnl": 3.544874,
+        "market_value": 0
+      }
+    ]
+  },
+  "trades": {
+    "executed": 0,
+    "failed": 0,
+    "recent": []
+  },
+  "health": {
+    "timestamp": "2026-05-12T01:44:43.994010",
+    "overall_score": 100.0,
+    "status": "healthy",
+    "checks": {
+      "credentials": {
+        "status": "OK",
+        "message": "Credentials configured",
+        "penalty": 0
+      },
+      "config": {
+        "status": "OK",
+        "message": "Config loaded",
+        "penalty": 0
+      },
+      "api_health": {
+        "status": "OK",
+        "message": "API healthy",
+        "penalty": 0
+      },
+      "disk_space": {
+        "status": "OK",
+        "message": "Disk space OK (260.0GB free)",
+        "penalty": 0
+      },
+      "error_rate": {
+        "status": "OK",
+        "message": "No trades yet",
+        "penalty": 0
+      }
+    },
+    "metrics": {
+      "total_trades": 0,
+      "success_rate": 100.0,
+      "api_errors": 0,
+      "uptime_seconds": 145874.3211929798
+    }
+  },
+  "strategies": {
+    "testing": [
+      "Unknown: 0.0%, Sharpe 0.00",
+      "Unknown: 0.0%, Sharpe 0.00",
+      "Unknown: 0.0%, Sharpe 0.00"
+    ],
+    "approved": [],
+    "validated": 0,
+    "total": 54
+  },
+  "execution": {
+    "orders": 0,
+    "filled": 0,
+    "latency_ms": 0
+  },
+  "risk": {
+    "leverage": 0.0,
+    "exposure": 0
+  },
+  "uptime_pct": 100.0,
+  "checks": 472
+}

@@ -1,0 +1,37 @@
+{
+  "updated_at": "2026-05-12T01:36:34.804709",
+  "tickers": [
+    "COHR",
+    "WOR",
+    "MSFT",
+    "AXTI",
+    "NVDA"
+  ],
+  "details": [
+    {
+      "ticker": "COHR",
+      "reason": "Analyzing the provided financial data for COHR, we have limited information to work with, as the \"kpis\" (key performance indicators) are empty and the \"insider_sentiment\" is \"Mixed\". \n\nGiven the lack ...",
+      "score": 0.85
+    },
+    {
+      "ticker": "WOR",
+      "reason": "Based on the provided financial data, here's my analysis:\n\n1. **Financial Data Analysis**: The data is limited, but we can see that the ticker symbol is \"WOR\" and the insider sentiment is \"Mixed\". Unf...",
+      "score": 0.85
+    },
+    {
+      "ticker": "MSFT",
+      "reason": "Okay, time to dissect MSFT. Let's get to work.\n\n**Financial Analysis:**\n\n*   **Profitability:** Microsoft's net income shows a strong upward trend. Net income increased from $88.14 billion in 2024 to ...",
+      "score": 0.85
+    },
+    {
+      "ticker": "AXTI",
+      "reason": "Okay, let's analyze AXTI.\n\n**Analysis:**\n\nBased on the provided data, we have a limited view of AXTI's financial health. We know the ticker and that insider sentiment is \"Mixed.\" We lack crucial finan...",
+      "score": 0.85
+    },
+    {
+      "ticker": "NVDA",
+      "reason": "Okay, let's dissect NVDA. Time to get my hands dirty.\n\n**Financial Health Analysis:**\n\n*   **Profitability:** NVDA's net income is exploding. From $72.88 billion in 2025 to a projected $120.07 billion...",
+      "score": 0.85
+    }
+  ]
+}

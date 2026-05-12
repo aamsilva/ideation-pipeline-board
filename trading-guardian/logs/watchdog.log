@@ -1,0 +1,172 @@
+2026-05-08 20:55:40,288 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 20:55:40,288 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 20:55:40,288 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 20:55:40,303 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 20:55:40,310 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 20:55:40,310 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 20:55:40,310 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 20:55:40,310 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:07:18,639 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:07:18,640 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 21:07:18,640 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:07:18,659 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 21:07:18,667 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 21:07:18,667 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 21:07:18,668 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 21:07:18,668 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:22:41,265 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:22:41,265 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 21:22:41,265 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:22:41,281 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 21:22:41,288 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 21:22:41,288 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 21:22:41,288 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 21:22:41,288 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:25:47,977 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:25:47,977 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 21:25:47,978 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:25:47,994 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 21:25:48,001 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 21:25:48,002 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 21:25:48,002 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 21:25:48,002 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:30:26,518 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:30:26,519 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 21:30:26,519 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:30:26,530 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 21:30:26,535 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 21:30:26,535 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 21:30:26,535 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 21:30:26,535 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:37:31,052 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:37:31,053 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 21:37:31,053 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:37:31,065 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 21:37:31,070 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 21:37:31,070 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 21:37:31,070 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 21:37:31,070 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:40:56,980 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:40:56,981 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 21:40:56,981 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:40:56,995 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 21:40:57,000 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 21:40:57,000 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 21:40:57,000 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 21:40:57,000 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:46:11,796 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:46:11,796 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 21:46:11,796 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:46:11,807 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 21:46:11,813 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 21:46:11,813 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 21:46:11,813 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 21:46:11,813 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:51:04,784 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:51:04,784 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 21:51:04,784 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:51:04,796 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 21:51:04,801 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 21:51:04,801 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 21:51:04,801 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 21:51:04,801 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:55:13,187 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:55:13,187 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 21:55:13,187 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 21:55:13,201 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 21:55:13,209 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 21:55:13,209 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 21:55:13,209 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 21:55:13,209 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:00:59,999 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:01:00,000 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:01:00,000 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:01:00,016 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:01:00,023 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:01:00,024 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:01:00,024 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:01:00,024 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:05:58,522 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:05:58,522 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:05:58,522 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:05:58,535 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:05:58,542 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:05:58,542 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:05:58,542 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:05:58,542 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:12:15,321 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:12:15,321 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:12:15,321 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:12:15,332 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:12:15,338 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:12:15,338 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:12:15,338 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:12:15,338 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:16:05,658 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:16:05,658 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:16:05,658 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:16:05,674 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:16:05,680 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:16:05,680 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:16:05,680 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:16:05,680 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:25:19,045 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:25:19,046 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:25:19,046 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:25:19,057 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:25:19,062 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:25:19,062 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:25:19,062 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:25:19,062 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:30:20,036 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:30:20,037 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:30:20,037 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:30:20,051 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:30:20,057 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:30:20,058 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:30:20,058 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:30:20,058 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:35:22,512 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:35:22,512 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:35:22,512 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:35:22,531 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:35:22,537 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:35:22,537 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:35:22,538 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:35:22,538 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:40:41,713 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:40:41,714 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:40:41,714 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:40:41,734 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:40:41,744 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:40:41,744 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:40:41,744 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:40:41,744 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:45:36,798 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:45:36,798 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:45:36,799 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:45:36,811 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:45:36,817 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:45:36,817 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:45:36,817 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:45:36,817 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:50:08,726 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:50:08,727 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-08 22:50:08,727 | GuardianWatchdog | INFO    | ============================================================
+2026-05-08 22:50:08,739 | GuardianWatchdog | INFO    | 📊 Daemon process: ✅ RUNNING
+2026-05-08 22:50:08,743 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-08 22:50:08,743 | GuardianWatchdog | INFO    | ✅ Daemon is healthy and running
+2026-05-08 22:50:08,743 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-08 22:50:08,743 | GuardianWatchdog | INFO    | ============================================================
+2026-05-10 09:13:29,590 | GuardianWatchdog | INFO    | ============================================================
+2026-05-10 09:13:29,590 | GuardianWatchdog | INFO    | 🛡️ Trading Guardian Watchdog STARTING
+2026-05-10 09:13:29,590 | GuardianWatchdog | INFO    | ============================================================
+2026-05-10 09:13:29,603 | GuardianWatchdog | INFO    | 📊 Daemon process: ❌ STOPPED
+2026-05-10 09:13:29,608 | GuardianWatchdog | INFO    | 📊 Launchd agent: ✅ LOADED
+2026-05-10 09:13:29,608 | GuardianWatchdog | WARNING | ⚠️ Daemon NOT running - attempting restart...
+2026-05-10 09:13:29,619 | GuardianWatchdog | WARNING | ⚠️ Launchd restart failed - trying direct start...
+2026-05-10 09:13:29,620 | GuardianWatchdog | INFO    | ✅ Daemon started directly (fallback method)
+2026-05-10 09:13:34,660 | GuardianWatchdog | INFO    | ✅ Daemon started directly
+2026-05-10 09:13:34,660 | GuardianWatchdog | INFO    | 📊 Daemon log: 2150 bytes
+2026-05-10 09:13:34,660 | GuardianWatchdog | INFO    | ✅ Watchdog check COMPLETED
+2026-05-10 09:13:34,660 | GuardianWatchdog | INFO    | ============================================================
