@@ -65,7 +65,7 @@ class AgentSwarm:
         """Micro-agent that updates social sentiment scores periodically in the background"""
         logger.info("📡 Sentiment Scout Agent active")
         # Watchlist symbols to scan
-        symbols = ["AAPL", "AMD", "NVDA", "MSFT", "GOOGL"]
+        symbols = ["AAPL", "AMD", "NVDA", "MSFT", "GOOGL", "BTCUSD", "ETHUSD"]
         while self.running:
             for sym in symbols:
                 if not self.running:
@@ -106,7 +106,7 @@ class AgentSwarm:
         from autoresearch_engine import AutoResearchEngine
         engine = AutoResearchEngine()
         strategies = ["rsi", "bollinger"]
-        symbols = ["AAPL", "AMD", "NVDA", "MSFT", "GOOGL"]
+        symbols = ["AAPL", "AMD", "NVDA", "MSFT", "GOOGL", "BTCUSD", "ETHUSD"]
         while self.running:
             for strat in strategies:
                 for sym in symbols:

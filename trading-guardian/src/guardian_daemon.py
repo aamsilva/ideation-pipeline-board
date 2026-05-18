@@ -217,7 +217,7 @@ async def main():
             try:
                 # 1. Load dynamic watchlist from Hunter
                 watchlist_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'watchlist.json')
-                symbols_to_track = set(["AAPL", "AMD", "INTC", "GOOGL", "MSFT"]) # Default baseline
+                symbols_to_track = set(["AAPL", "AMD", "INTC", "GOOGL", "MSFT", "BTCUSD", "ETHUSD"]) # Default baseline
                 
                 if os.path.exists(watchlist_file):
                     try:
