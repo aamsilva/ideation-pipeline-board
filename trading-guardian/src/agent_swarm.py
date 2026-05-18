@@ -10,7 +10,7 @@ import os
 from typing import Dict, List
 from risk_officer import RiskOfficer
 from social_intelligence import SocialIntelligence
-from executors.alpaca_discovery_executor import AlpacaExecutor
+from alpaca_executor import AlpacaExecutor
 
 logger = logging.getLogger("AgentSwarm")
 
