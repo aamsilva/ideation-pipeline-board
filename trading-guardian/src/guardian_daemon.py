@@ -324,12 +324,14 @@ async def main():
             
             if not signals:
                 logger.info("   No trading signals this cycle")
+                trade_latencies = []
             else:
                 logger.info(f"   ✅ Generated {len(buy_signals)} buy signals and {len(sell_signals)} sell signals")
                 
                 # ========== PHASE 3: EXECUTE TRADES (BUY + SELL) ==========
                 executed = 0
                 failed = 0
+                trade_latencies = []
                 
                 for signal in signals:
                     symbol = signal['symbol']
@@ -344,7 +346,10 @@ async def main():
                     if success:
                         executed += 1
                         mode = details.get('mode', 'PAPER')
-                        logger.info(f"      ✅ Trade executed: {msg} [{mode}]")
+                        latency = details.get('latency_ms', 0.0)
+                        if latency > 0:
+                            trade_latencies.append(latency)
+                        logger.info(f"      ✅ Trade executed: {msg} [{mode}] (latency: {latency:.1f}ms)")
                         cycle_state["trades"]["recent"].append({
                             "symbol": symbol,
                             "qty": qty,
@@ -421,7 +426,10 @@ async def main():
             # Update execution stats
             cycle_state["execution"]["orders"] = guardian.metrics.total_trades
             cycle_state["execution"]["filled"] = guardian.metrics.successful_trades
-            cycle_state["execution"]["latency_ms"] = 0  # TODO: implement latency tracking
+            avg_lat = sum(trade_latencies) / len(trade_latencies) if (signals and trade_latencies) else 0.0
+            cycle_state["execution"]["latency_ms"] = avg_lat
+            if avg_lat > 0:
+                logger.info(f"⏱️ Cycle Average Trade Execution Latency: {avg_lat:.2f} ms")
             
             # Update risk metrics
             total_exposure = sum(p.get("market_value", 0) for p in cycle_state["paper"]["positions"])

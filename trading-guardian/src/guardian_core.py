@@ -385,12 +385,16 @@ class TradingGuardian:
             logger.info(f"📊 Executing via {mode}: {order.side} {order.quantity} {order.symbol}")
             
             # Submit order
+            import time
+            start_time = time.perf_counter()
             result = executor.submit_order(
                 symbol=order.symbol,
                 qty=order.quantity,
                 side=order.side,
                 order_type=order.order_type
             )
+            latency_ms = (time.perf_counter() - start_time) * 1000
+            logger.info(f"⏱️ Alpaca Order Submit Round-Trip Latency: {latency_ms:.2f} ms")
             
             if result:
                 filled_price = result.get("filled_avg_price")
@@ -407,7 +411,8 @@ class TradingGuardian:
                     "filled_qty": float(filled_qty) if filled_qty is not None else 0.0,
                     "status": result.get("status"),
                     "strategy": order.strategy,
-                    "mode": mode  # PAPER or LIVE
+                    "mode": mode,  # PAPER or LIVE
+                    "latency_ms": latency_ms
                 }
                 # Log trade for reporting
                 self._log_trade_to_file(result)
