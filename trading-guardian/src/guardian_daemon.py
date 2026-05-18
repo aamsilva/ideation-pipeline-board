@@ -12,6 +12,7 @@ import logging
 import signal
 from datetime import datetime
 from typing import Dict, List
+import asyncio
 # Load environment variables from .env file
 try:
     from dotenv import load_dotenv
@@ -60,7 +61,7 @@ signal.signal(signal.SIGHUP, signal_handler)
 logger.info("🛡️ High Availability Mode: ALL shutdown signals will be IGNORED")
 
 
-def main():
+async def main():
     # Initialize Alpaca WebSocket client for real‑time price feed
     from websocket_client import AlpacaWebsocketClient
     ws_client = AlpacaWebsocketClient()
@@ -152,7 +153,7 @@ def main():
                     if live_exec:
                         live_exec.cancel_all_orders()
                         logger.info("   ✅ Live orders cancelled")
-                    time.sleep(2)
+                    await asyncio.sleep(2)
                 else:
                     logger.info("   ⏳ Market is CLOSED. Preserving queued orders.")
             except Exception as e:
@@ -166,7 +167,7 @@ def main():
             
             if health['overall_score'] < 50:
                 logger.error("❌ Health score too low, skipping this cycle")
-                time.sleep(check_interval)
+                await asyncio.sleep(check_interval)
                 continue
             
             # ========== HOT-RELOAD STRATEGIES ==========
@@ -441,7 +442,7 @@ def main():
             for _ in range(check_interval):
                 if not running:
                     break
-                time.sleep(1)
+                await asyncio.sleep(1)
     
     logger.info("=" * 60)
     logger.info("🛑 Trading Guardian Daemon stopped")
@@ -449,4 +450,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
