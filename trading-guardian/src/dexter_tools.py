@@ -360,27 +360,30 @@ def analyze_with_llm(prompt: str, model: str = None) -> str:
     CRITICAL: Uses smart-router (litellm) with seamless pure-requests OpenRouter fallback!
     """
     try:
-        # Check if local LiteLLM Proxy is preferred and litellm is installed
-        import litellm
-        
-        # Point to local LiteLLM Proxy
-        litellm.api_base = "http://localhost:4000"
-        litellm.api_key = os.getenv("LITELLM_MASTER_KEY", "sk-1234")
-        
-        # Use smart-router if model not specified
+        # Direct HTTP call to local LiteLLM Proxy on port 4000
+        import requests
         if model is None:
             model = os.getenv("SMART_ROUTER_MODEL", "smart-router")
-        
-        response = litellm.completion(
-            model=f"openai/{model}",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.2,
-            api_base="http://localhost:4000",
-            api_key=os.getenv("LITELLM_MASTER_KEY", "sk-1234"),
-            timeout=10
+            
+        headers = {
+            "Authorization": f"Bearer {os.getenv('LITELLM_MASTER_KEY', 'sk-litellm-master-key-12345')}",
+            "Content-Type": "application/json"
+        }
+        data = {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.2
+        }
+        resp = requests.post(
+            "http://localhost:4000/v1/chat/completions",
+            headers=headers,
+            json=data,
+            timeout=15
         )
-        
-        return response.choices[0].message.content
+        if resp.status_code == 200:
+            return resp.json()["choices"][0]["message"]["content"]
+        else:
+            raise RuntimeError(f"Local LiteLLM error {resp.status_code}: {resp.text}")
     except Exception as e:
         logger.info(f"Local LiteLLM proxy or library unavailable ({e}). Falling back to pure requests OpenRouter direct...")
         try:
