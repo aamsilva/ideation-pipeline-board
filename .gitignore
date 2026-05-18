@@ -1,0 +1,4 @@
+trading-guardian/.env
+trading-guardian/__pycache__/
+trading-guardian/logs/
+trading-guardian/backups/
