@@ -30,8 +30,10 @@ class AgentSwarm:
         # Spawn micro-agents concurrently
         asyncio.create_task(self.run_risk_officer_loop())
         asyncio.create_task(self.run_sentiment_scout_loop())
+        asyncio.create_task(self.run_watchlist_hunter_loop())
+        asyncio.create_task(self.run_parameter_autotuning_loop())
         
-        logger.info("   ✅ Risk Officer & Sentiment Scout spawned as background tasks.")
+        logger.info("   ✅ Risk Officer, Sentiment Scout, Watchlist Hunter & Parameter Autotuner spawned as background tasks.")
 
     async def stop(self):
         """Stops all running agents"""
@@ -80,6 +82,52 @@ class AgentSwarm:
             
             # Rest for 30 minutes between cycles
             await asyncio.sleep(1800)
+
+    async def run_watchlist_hunter_loop(self):
+        """Micro-agent that performs market-wide hunting periodically (every 12 hours)"""
+        logger.info("🏹 Watchlist Hunter Agent active")
+        from watchlist_hunter import WatchlistHunter
+        hunter = WatchlistHunter()
+        while self.running:
+            try:
+                logger.info("🏹 Watchlist Hunter initiating market-wide hunt...")
+                # Run the hunt in a separate thread to prevent blocking the asyncio loop
+                await asyncio.to_thread(hunter.hunt)
+                logger.info("   ✅ Watchlist Hunter completed cycle successfully.")
+            except Exception as e:
+                logger.error(f"⚠️ Watchlist Hunter failed cycle: {e}")
+            
+            # Wait for 12 hours between hunts
+            await asyncio.sleep(43200)
+
+    async def run_parameter_autotuning_loop(self):
+        """Micro-agent that performs genetic parameter autotuning weekly (every 7 days)"""
+        logger.info("🧬 Parameter Autotuner Agent active")
+        from autoresearch_engine import AutoResearchEngine
+        engine = AutoResearchEngine()
+        strategies = ["rsi", "bollinger"]
+        symbols = ["AAPL", "AMD", "NVDA", "MSFT", "GOOGL"]
+        while self.running:
+            for strat in strategies:
+                for sym in symbols:
+                    if not self.running:
+                        break
+                    try:
+                        logger.info(f"🧬 Autotuner optimizing strategy '{strat}' on '{sym}'...")
+                        # Run the optimization in a separate thread to prevent blocking the asyncio loop
+                        result = await asyncio.to_thread(engine.optimize_strategy_parameters, strat, sym)
+                        if result.get("success"):
+                            logger.info(f"   ✅ Autotuner successfully optimized '{strat}' for '{sym}'!")
+                        else:
+                            logger.info(f"   ⏳ Autotuner cycle finished for '{strat}'/'{sym}': {result.get('error', 'no changes required')}")
+                    except Exception as e:
+                        logger.error(f"⚠️ Autotuner failed for '{strat}' on '{sym}': {e}")
+                    
+                    # Sleep 60 seconds between optimizations to prevent CPU spikes
+                    await asyncio.sleep(60)
+            
+            # Wait for 7 days before next weekly cycle
+            await asyncio.sleep(604800)
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

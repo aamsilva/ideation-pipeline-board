@@ -207,6 +207,12 @@ async def main():
             # ========== PHASE 2: AGGREGATE SIGNALS ==========
             logger.info("📡 Aggregating signals from all strategies...")
             
+            # Update macro sentiment
+            try:
+                guardian.strategy_engine.update_macro_sentiment()
+            except Exception as e:
+                logger.warning(f"   ⚠️  Failed to update macro sentiment: {e}")
+            
             # Refresh price cache and update opening range for each symbol
             try:
                 # 1. Load dynamic watchlist from Hunter
@@ -221,6 +227,13 @@ async def main():
                             logger.info(f"   🏹 Dynamic Watchlist Loaded: {len(wdata.get('tickers', []))} targets")
                     except Exception as e:
                         logger.warning(f"   ⚠️  Failed to load watchlist.json: {e}")
+                
+                # Dynamic Hedging: If macro score indicates panic, inject inverse ETFs
+                macro_score = guardian.strategy_engine.macro_sentiment.get("score", 0.0)
+                if macro_score < -0.6:
+                    logger.warning(f"🚨 MACRO RISK HEURISTIC: Ingesting Inverse ETFs (SH, PSQ) due to Panic Score ({macro_score})")
+                    symbols_to_track.add("SH")
+                    symbols_to_track.add("PSQ")
 
                 # Use Paper executor for price data (cheap, safe)
                 price_client = guardian.alpaca_executor_paper

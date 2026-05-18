@@ -117,6 +117,43 @@ class StrategyEngine:
         social_sentiment = self.social_intel.harvest_sentiment(symbol)
         social_score = social_sentiment.get('score', 0.0)
         
+        # 1B. DYNAMIC MACRO HEDGING: If overall market sentiment indicates crash panic (< -0.6)
+        macro_score = self.macro_sentiment.get('score', 0.0)
+        if macro_score < -0.6 and symbol in ["SH", "PSQ"]:
+            if qty == 0:
+                cash = 100.0
+                try:
+                    account_info = self.alpaca_executor.get_account()
+                    if account_info:
+                        cash = float(account_info.get("cash", 100.0))
+                except Exception:
+                    pass
+                # Allocate 10% of portfolio cash to crash hedge
+                target_spend = min(cash * 0.10, 250.0)
+                qty_to_buy = max(0.01, target_spend / current_price)
+                logger.warning(f"🚨 MACRO HEDGING DETECTED! Buying Inverse ETF {symbol} for safety.")
+                return {
+                    'action': 'BUY',
+                    'symbol': symbol,
+                    'qty': round(qty_to_buy, 4),
+                    'price': current_price,
+                    'confidence': 1.0,
+                    'reason': f"MACRO PANIC HEDGE (Score: {macro_score})",
+                    'strategies': ['macro_hedge']
+                }
+        # If we own inverse ETF but market sentiment has fully recovered, sell it!
+        elif macro_score > 0.0 and symbol in ["SH", "PSQ"] and qty > 0:
+            logger.info(f"☀️ Market sentiment fully recovered ({macro_score}). Liquidating Inverse ETF {symbol}.")
+            return {
+                'action': 'SELL',
+                'symbol': symbol,
+                'qty': qty,
+                'price': current_price,
+                'confidence': 1.0,
+                'reason': f"Liquidating Macro Hedge (Score: {macro_score})",
+                'strategies': ['macro_hedge']
+            }
+        
         # Calcular força do sinal
         buy_strength = agg['buy_votes']
         sell_strength = agg['sell_votes']
