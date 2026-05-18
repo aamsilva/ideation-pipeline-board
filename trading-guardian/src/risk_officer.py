@@ -16,7 +16,7 @@ class RiskOfficer:
     def __init__(self, max_drawdown_pct: float = 8.0, stop_loss_pct: float = 5.0):
         self.max_drawdown_pct = max_drawdown_pct  # Max portfolio drawdown (8%)
         self.stop_loss_pct = stop_loss_pct        # Stop loss per asset (5%)
-        self.alpaca_executor = AlpacaExecutor(live=False) # Default to Paper for risk monitoring
+        self.alpaca_executor = AlpacaExecutor(use_live=False) # Default to Paper for risk monitoring
         
     def check_portfolio_limits(self, positions: Dict, account_info: Dict) -> Tuple[bool, str, List[str]]:
         """

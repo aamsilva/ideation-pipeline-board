@@ -19,7 +19,7 @@ class AgentSwarm:
         self.check_interval_sec = check_interval_sec
         self.risk_officer = RiskOfficer()
         self.social_intel = SocialIntelligence()
-        self.alpaca_executor = AlpacaExecutor(live=False)
+        self.alpaca_executor = AlpacaExecutor(use_live=False)
         self.running = False
         
     async def start(self):
