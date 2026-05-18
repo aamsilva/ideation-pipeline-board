@@ -20,12 +20,12 @@ try:
 except ImportError:
     pass
 
-# Add websocket client import
-from websocket_client import AlpacaWebsocketClient
-
 # Add project to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+
+# Add websocket client import
+from websocket_client import AlpacaWebsocketClient
 
 # Configure logging
 log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'logs')
@@ -84,6 +84,15 @@ async def main():
     except Exception as e:
         logger.error(f"❌ Failed to initialize Guardian: {e}")
         return
+        
+    # Initialize and start Agent Swarm (Risk Officer + Sentiment Scout)
+    try:
+        from agent_swarm import AgentSwarm
+        swarm = AgentSwarm()
+        await swarm.start()
+        logger.info("✅ Agent Swarm Orchestrator started successfully in background")
+    except Exception as e:
+        logger.error(f"❌ Failed to start Agent Swarm: {e}")
     
     # Initialize Alpaca Executors (Paper + Live dual mode)
     try:
