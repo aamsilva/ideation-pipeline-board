@@ -60,6 +60,10 @@ class PreExecutionValidator:
         if order.quantity <= 0:
             return False, "Quantity must be positive"
         
+        # Alpaca minimum fractional order constraint to prevent 422 errors
+        if order.quantity < 0.0001:
+            return False, f"Quantity {order.quantity} is below Alpaca minimum fractional limit (0.0001)"
+        
         if order.quantity > 10000:  # Sanity check
             return False, "Quantity exceeds maximum allowed (10000)"
         
