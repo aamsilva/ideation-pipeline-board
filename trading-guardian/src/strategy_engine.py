@@ -27,8 +27,10 @@ class StrategyEngine:
         # Level 4.7: Social Intelligence & Risk Management
         from social_intelligence import SocialIntelligence
         from risk_manager import SentinelRiskManager
+        from portfolio_rebalancer import PortfolioRebalancer
         self.social_intel = SocialIntelligence()
         self.risk_manager = SentinelRiskManager()
+        self.rebalancer = PortfolioRebalancer()
 
     def update_macro_sentiment(self):
         """Update global macro sentiment using Dexter tools"""
@@ -111,6 +113,10 @@ class StrategyEngine:
         qty = data.get('qty', 0)
         current_price = data.get('current', 0)
         
+        # 1. SOCIAL INTELLIGENCE (Sentiment Check) - Harvested early to inform Kelly rebalancing
+        social_sentiment = self.social_intel.harvest_sentiment(symbol)
+        social_score = social_sentiment.get('score', 0.0)
+        
         # Calcular força do sinal
         buy_strength = agg['buy_votes']
         sell_strength = agg['sell_votes']
@@ -121,9 +127,23 @@ class StrategyEngine:
         if buy_strength > sell_strength and buy_strength >= self.min_confidence:
             # Verificar se já temos posição (evitar duplicação)
             if qty == 0:
-                # Calcular quantidade baseada em risco
-                max_spend = min(self.max_position_value, 100)  # Cap at $100 for safety
-                qty_to_buy = max(0.01, max_spend / current_price)
+                # Use PortfolioRebalancer for optimal size calculation (Kelly Criterion)
+                cash = 1000.0  # Safe default cash for paper/live
+                try:
+                    account_info = self.alpaca_executor.get_account()
+                    if account_info:
+                        cash = float(account_info.get("cash", 1000.0))
+                except Exception as e:
+                    logger.warning(f"Failed to fetch account cash for Kelly calculation: {e}")
+                
+                # Fetch optimal Kelly allocations adjusted by real-time sentiment
+                opt_alloc = self.rebalancer.get_optimal_allocations([symbol], cash, {symbol: social_score})
+                symbol_alloc = opt_alloc.get(symbol, {})
+                target_spend = symbol_alloc.get("target_cash", min(self.max_position_value, 100))
+                
+                # Absolute safety clamp to protect capital (limits max position spend to $250)
+                max_spend = min(target_spend, self.max_position_value, 250)
+                qty_to_buy = max(0.0001, max_spend / current_price)
                 
                 decision = {
                     'action': 'BUY',
@@ -131,7 +151,7 @@ class StrategyEngine:
                     'qty': round(qty_to_buy, 4),
                     'price': current_price,
                     'confidence': buy_strength,
-                    'reason': f"Buy signal from {len(agg['holding'])} strategies",
+                    'reason': f"Buy signal from {len(agg['holding'])} strategies (Kelly-Sentiment sized)",
                     'strategies': [s['strategy'] for s in agg['holding'] if s['signal'] == 'BUY']
                 }
         
@@ -147,10 +167,6 @@ class StrategyEngine:
                     'reason': f"Sell signal from {len(agg['holding'])} strategies",
                     'strategies': [s['strategy'] for s in agg['holding'] if s['signal'] == 'SELL']
                 }
-        
-        # 3. SOCIAL INTELLIGENCE (Sentiment Check)
-        social_sentiment = self.social_intel.harvest_sentiment(symbol)
-        social_score = social_sentiment.get('score', 0.0)
         
         # Ajustar confiança baseado no sentimento social (Factor de 20%)
         if decision:
