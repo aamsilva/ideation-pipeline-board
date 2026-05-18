@@ -5,22 +5,29 @@ Recebe sinais de TODAS as estratégias e decide: BUY / SELL / HOLD
 """
 
 from alpaca_executor import get_executor
+import logging
+import time
 from typing import Dict, List, Optional
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 class StrategyEngine:
     """Motor central que coordena todas as estratégias"""
     
-    def __init__(self, use_live: bool = False):
-        self.client = get_executor(use_live=use_live)
+    def __init__(self, alpaca_executor, use_live: bool = False):
+        self.alpaca_executor = alpaca_executor
+        self.client = alpaca_executor  # Use the passed executor as client
         self.strategies = {}  # {name: strategy_instance}
-        self.max_position_value = 500  # Max $500 per position (live)
-        self.min_confidence = 0.55  # Lowered from 0.7 for higher trade frequency
+        self.max_position_value = 100  # Max $100 per position (live)
+        self.min_confidence = 0.4  # Lowered for more aggressive trading
         self.notify_callback = None  # Callback for notifications
         self.macro_sentiment = {"score": 0.0, "bias": "neutral", "reason": "Initial state"}
         
-        # Level 4.5: Multi-Agent Risk Management
+        # Level 4.7: Social Intelligence & Risk Management
+        from social_intelligence import SocialIntelligence
         from risk_manager import SentinelRiskManager
+        self.social_intel = SocialIntelligence()
         self.risk_manager = SentinelRiskManager()
 
     def update_macro_sentiment(self):
@@ -43,6 +50,7 @@ class StrategyEngine:
 
     def register_strategy(self, name: str, strategy_instance):
         """Registar uma nova estratégia"""
+        strategy_instance.client = self.alpaca_executor
         self.strategies[name] = strategy_instance
         print(f"✅ Strategy registered: {name}")
     
@@ -140,6 +148,19 @@ class StrategyEngine:
                     'strategies': [s['strategy'] for s in agg['holding'] if s['signal'] == 'SELL']
                 }
         
+        # 3. SOCIAL INTELLIGENCE (Sentiment Check)
+        social_sentiment = self.social_intel.harvest_sentiment(symbol)
+        social_score = social_sentiment.get('score', 0.0)
+        
+        # Ajustar confiança baseado no sentimento social (Factor de 20%)
+        if decision:
+            if decision['action'] == 'BUY' and social_score < -0.5:
+                logger.warning(f"⚠️ CONTRARIAN ALERT: Technical BUY for {symbol} but Social Sentiment is PANIC ({social_score})")
+                decision['confidence'] *= 0.8 # Reduzir confiança
+            elif decision['action'] == 'BUY' and social_score > 0.5:
+                logger.info(f"🔥 SOCIAL BOOST: High Bullish sentiment for {symbol} ({social_score})")
+                decision['confidence'] *= 1.1 # Aumentar confiança
+        
         # 4. AUDITORIA DE RISCO (Multi-Agent Sentinel)
         if decision and current_portfolio:
             macro_score = self.macro_sentiment.get('score', 0.0)
@@ -168,22 +189,60 @@ class StrategyEngine:
             )
             
             if order:
-                print(f"✅ EXECUTED: {decision['action']} {decision['qty']} {decision['symbol']} @ ${decision['price']:.2f}")
-                print(f"   Reason: {decision['reason']}")
-                print(f"   Strategies: {', '.join(decision['strategies'])}")
+                order_id = order.get('id')
+                print(f"✅ Order submitted: {decision['action']} {decision['qty']} {decision['symbol']} | ID: {order_id}")
+                print(f"   Initial Status: {order.get('status')}")
                 
-                # ENVIAR NOTIFICAÇÃO DISCORD
-                if self.notify_callback:
-                    msg = f"🚨 **TRADE EXECUTED**\n"
-                    msg += f"**Action:** {decision['action']}\n"
-                    msg += f"**Symbol:** {decision['symbol']}\n"
-                    msg += f"**Qty:** {decision['qty']}\n"
-                    msg += f"**Price:** ${decision['price']:.2f}\n"
-                    msg += f"**Reason:** {decision['reason']}\n"
-                    msg += f"**Strategies:** {', '.join(decision['strategies'])}"
-                    self.notify_callback(msg)
+                # WAIT FOR FILL (market orders should fill quickly)
+                max_wait = 15  # seconds
+                start_time = time.time()
                 
-                return True
+                while time.time() - start_time < max_wait:
+                    # Check order status
+                    if hasattr(self.client, 'session'):
+                        try:
+                            check_resp = self.client.session.get(
+                                f"{self.client.base_url}/v2/orders/{order_id}", 
+                                timeout=10
+                            )
+                            if check_resp.status_code == 200:
+                                order_status = check_resp.json()
+                                status = order_status.get('status')
+                                
+                                if status == 'filled':
+                                    filled_price = float(order_status.get('filled_avg_price', 0))
+                                    filled_qty = float(order_status.get('filled_qty', 0))
+                                    print(f"   ✅ FILLED: {filled_qty} @ ${filled_price:.2f}")
+                                    
+                                    # Print execution details
+                                    print(f"✅ EXECUTED: {decision['action'].upper()} {filled_qty} {decision['symbol']} @ ${filled_price:.2f}")
+                                    print(f"   Reason: {decision['reason']}")
+                                    print(f"   Strategies: {', '.join(decision['strategies'])}")
+                                    
+                                    # ENVIAR NOTIFICAÇÃO DISCORD
+                                    if self.notify_callback:
+                                        msg = f"🚨 **TRADE EXECUTED**\n"
+                                        msg += f"**Action:** {decision['action']}\n"
+                                        msg += f"**Symbol:** {decision['symbol']}\n"
+                                        msg += f"**Qty:** {filled_qty}\n"
+                                        msg += f"**Price:** ${filled_price:.2f}\n"
+                                        msg += f"**Reason:** {decision['reason']}\n"
+                                        msg += f"**Strategies:** {', '.join(decision['strategies'])}"
+                                        self.notify_callback(msg)
+                                    
+                                    return True
+                                    
+                                elif status in ['canceled', 'expired', 'rejected']:
+                                    print(f"   ❌ Order {status}!")
+                                    return False
+                        except Exception as e:
+                            print(f"   ⚠️ Status check error: {e}")
+                    
+                    time.sleep(2)  # Wait 2 seconds before retrying
+                
+                # Timeout
+                print(f"   ⏳ Order still pending after {max_wait}s")
+                return False
             else:
                 print(f"❌ FAILED to execute: {decision}")
                 return False

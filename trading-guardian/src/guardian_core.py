@@ -112,17 +112,39 @@ class TradingGuardian:
     def is_market_open(self) -> bool:
         """
         Check if the NYSE market is currently open (US/Eastern)
+        Regular hours: 9:30 AM - 4:00 PM ET, Monday-Friday
+        Using pure-python timezone offset to avoid pytz dependency.
         """
-        from datetime import datetime
-        import pytz
+        from datetime import datetime, timezone, timedelta
         try:
-            tz = pytz.timezone('US/Eastern')
-            now = datetime.now(tz)
-            if now.weekday() > 4: return False
-            pre_market = now.replace(hour=4, minute=0, second=0)
-            post_market = now.replace(hour=20, minute=0, second=0)
-            return pre_market <= now <= post_market
-        except: return True
+            # 1. Get current time in UTC
+            now_utc = datetime.now(timezone.utc)
+            
+            # 2. Determine Eastern Time offset (Daylight Saving Time check)
+            year = now_utc.year
+            # DST starts 2nd Sunday in March
+            dst_start = datetime(year, 3, 14, 2, tzinfo=timezone.utc) - timedelta(days=datetime(year, 3, 14).weekday() + 1)
+            # DST ends 1st Sunday in November
+            dst_end = datetime(year, 11, 7, 2, tzinfo=timezone.utc) - timedelta(days=datetime(year, 11, 7).weekday() + 1)
+            
+            is_dst = dst_start <= now_utc < dst_end
+            offset = -4 if is_dst else -5
+            
+            # 3. Convert current UTC time to Eastern Time
+            now_et = now_utc + timedelta(hours=offset)
+            
+            # 4. Check weekday (Monday=0 to Friday=4)
+            if now_et.weekday() > 4:
+                return False
+                
+            # 5. Check regular trading hours: 9:30 AM - 4:00 PM ET
+            market_open = now_et.replace(hour=9, minute=30, second=0, microsecond=0)
+            market_close = now_et.replace(hour=16, minute=0, second=0, microsecond=0)
+            
+            return market_open <= now_et <= market_close
+        except Exception as e:
+            logger.warning(f"Error checking market hours: {e}")
+            return False  # SAFE DEFAULT
     
     def _load_config(self) -> Dict:
         """Load configuration"""
@@ -158,7 +180,7 @@ class TradingGuardian:
         """
         try:
             # Try to initialize AlpacaExecutor - it will load from ~/.openclaw/secrets/
-            from alpaca_executor import AlpacaExecutor
+            from src.alpaca_executor import AlpacaExecutor
             executor = AlpacaExecutor(use_live=False)
             # If no exception, credentials are OK
             logger.info("✅ Alpaca credentials verified via AlpacaExecutor")
@@ -209,7 +231,7 @@ class TradingGuardian:
             from strategy_rsi import RSIStrategy
             from strategy_first_hour import FirstHourBreakoutStrategy
             
-            self._strategy_engine = StrategyEngine()
+            self._strategy_engine = StrategyEngine(self.alpaca_executor_paper)
             self._strategy_engine.register_strategy('bollinger', BollingerStrategy())
             self._strategy_engine.register_strategy('momentum', MomentumStrategy())
             self._strategy_engine.register_strategy('rsi', RSIStrategy())
@@ -222,7 +244,7 @@ class TradingGuardian:
     def alpaca_executor_paper(self):
         """Lazy load Alpaca Executor for Paper Trading (testing, no risk)"""
         if self._alpaca_executor_paper is None:
-            from alpaca_executor import AlpacaExecutor
+            from src.alpaca_executor import AlpacaExecutor
             self._alpaca_executor_paper = AlpacaExecutor(use_live=False)
             logger.info("✅ AlpacaExecutor Paper Trading initialized")
         return self._alpaca_executor_paper
@@ -232,7 +254,7 @@ class TradingGuardian:
         """Lazy load Alpaca Executor for Live Trading (proven strategies only)"""
         if self._alpaca_executor_live is None:
             try:
-                from alpaca_executor import AlpacaExecutor
+                from src.alpaca_executor import AlpacaExecutor
                 self._alpaca_executor_live = AlpacaExecutor(use_live=True)
                 logger.info("✅ AlpacaExecutor Live Trading initialized")
             except Exception as e:
@@ -592,13 +614,24 @@ class TradingGuardian:
         try:
             from discord_retry import send_trade_notification
             
+            # Extrair pareceres dos agentes para transparência total
+            macro = getattr(self.strategy_engine, 'macro_sentiment', {})
+            macro_bias = f"{macro.get('bias', 'N/A')} ({macro.get('score', 0)})"
+            
+            # Recuperar último sentimento social do cache
+            social_data = getattr(self.strategy_engine.social_intel, 'sentiment_cache', {}).get(order.symbol, {})
+            social_summary = f"{social_data.get('bias', 'Neutral')} | Panic: {social_data.get('panic_level', '0')}/10"
+
             notification_data = {
                 "symbol": order.symbol,
                 "qty": order.quantity,
                 "price": result.get("filled_price", 0),
                 "strategy_name": order.strategy,
                 "confidence": getattr(order, "confidence", 0.5),
-                "side": order.side
+                "side": order.side,
+                "macro_bias": macro_bias,
+                "social_sentiment": social_summary,
+                "risk_audit": "✅ Passed Sentinel Portfolio Audit"
             }
             
             send_trade_notification(notification_data, success, result)

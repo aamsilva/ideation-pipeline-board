@@ -11,7 +11,7 @@ class MomentumStrategy:
     """Estratégia Momentum"""
     
     def __init__(self, period=10, threshold=0.02):
-        self.client = get_executor(use_live=False)
+        self.client = None  # Will be set by StrategyEngine
         self.period = period  # Dias para cálculo de momentum
         self.threshold = threshold  # 2% mudança mínima
         self.name = "Momentum"

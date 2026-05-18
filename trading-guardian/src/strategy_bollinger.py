@@ -10,7 +10,7 @@ class BollingerStrategy:
     """Estratégia Bollinger Bands"""
     
     def __init__(self, period=30, std_dev=2.5, touch_threshold=0.002):
-        self.client = get_executor(use_live=False)
+        self.client = None  # Will be set by StrategyEngine
         self.period = period
         self.std_dev = std_dev
         self.touch_threshold = touch_threshold  # 0.2% tolerance

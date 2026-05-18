@@ -4,13 +4,23 @@ Trading Guardian Daemon - Continuous Operation (5min cycles)
 Tier-1 Trading Grade: Real execution, Health monitoring, Multi-strategy
 """
 
-import os
 import sys
+import os
 import time
 import json
 import logging
+import signal
 from datetime import datetime
 from typing import Dict, List
+# Load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '.env'))
+except ImportError:
+    pass
+
+# Add websocket client import
+from websocket_client import AlpacaWebsocketClient
 
 # Add project to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -51,6 +61,14 @@ logger.info("🛡️ High Availability Mode: ALL shutdown signals will be IGNORE
 
 
 def main():
+    # Initialize Alpaca WebSocket client for real‑time price feed
+    from websocket_client import AlpacaWebsocketClient
+    ws_client = AlpacaWebsocketClient()
+    ws_client.start_async()
+    # Subscribe to default watchlist symbols (will be refreshed each cycle)
+    default_symbols = ["AAPL", "AMD", "INTC", "GOOGL", "MSFT"]
+    ws_client.subscribe(default_symbols)
+    logger.info("🚀 WebSocket client started for real‑time price updates")
     """Main daemon loop"""
     from guardian_core import TradingGuardian
     
@@ -87,6 +105,12 @@ def main():
                 logger.info(f"📊 LIVE Buying Power: ${float(account_live.get('buying_power', 0)):.2f}")
     except Exception as e:
         logger.warning(f"⚠️  Live account unavailable: {e}")
+    
+    # ========== Register Strategies ==========
+    from strategy_bollinger_breakout import StrategyBollingerBreakout
+    bb_strategy = StrategyBollingerBreakout(alpaca_executor=guardian.alpaca_executor_paper)
+    guardian.strategy_engine.register_strategy('bollinger_breakout', bb_strategy)
+    logger.info("✅ Bollinger Breakout strategy registered")
     
     cycle_count = 0
     check_interval = 300  # 5 minutes
@@ -145,6 +169,31 @@ def main():
                 time.sleep(check_interval)
                 continue
             
+            # ========== HOT-RELOAD STRATEGIES ==========
+            logger.info("🔄 Checking for strategy mutations to hot-reload...")
+            try:
+                import importlib
+                import strategy_bollinger
+                import strategy_momentum
+                import strategy_rsi
+                import strategy_first_hour
+                
+                # Reload modules from disk
+                importlib.reload(strategy_bollinger)
+                importlib.reload(strategy_momentum)
+                importlib.reload(strategy_rsi)
+                importlib.reload(strategy_first_hour)
+                
+                # Re-register strategy instances on strategy_engine
+                guardian.strategy_engine.register_strategy('bollinger', strategy_bollinger.BollingerStrategy())
+                guardian.strategy_engine.register_strategy('momentum', strategy_momentum.MomentumStrategy())
+                guardian.strategy_engine.register_strategy('rsi', strategy_rsi.RSIStrategy())
+                guardian.strategy_engine.register_strategy('first_hour', strategy_first_hour.FirstHourBreakoutStrategy())
+                
+                logger.info("   ✅ Strategies hot-reloaded dynamically from disk")
+            except Exception as e:
+                logger.warning(f"   ⚠️ Hot-reloading failed: {e}")
+            
             # ========== PHASE 2: AGGREGATE SIGNALS ==========
             logger.info("📡 Aggregating signals from all strategies...")
             
@@ -185,7 +234,7 @@ def main():
                     except Exception:
                         pass
                     # Get latest price (may use cache)
-                    latest = price_client.get_current_price(sym)
+                    latest = ws_client.get_price(sym) or price_client.get_current_price(sym)
                     refreshed_prices[sym] = {
                         'qty': data.get('qty', 0),
                         'current': latest if latest is not None else data.get('current', 0),
@@ -302,7 +351,6 @@ def main():
                 logger.info(f"   📊 Results: {executed} executed, {failed} failed")
             # ========== PHASE 4: STRATEGY BACKTEST DATA ==========
             try:
-                import json
                 from pathlib import Path
                 exp_file = Path(__file__).parent.parent / "data" / "experiments.jsonl"
                 if exp_file.exists():

@@ -125,6 +125,21 @@ def send_trade_notification(trade_data: Dict, success: bool, result: Dict) -> bo
                 "name": "📋 Side",
                 "value": trade_data.get('side', 'buy').upper(),
                 "inline": True
+            },
+            {
+                "name": "🛡️ Sentinel (Risk)",
+                "value": trade_data.get('risk_audit', 'Approved by Sentinel'),
+                "inline": False
+            },
+            {
+                "name": "📡 Social Pulse",
+                "value": trade_data.get('social_sentiment', 'Neutral / No Panic'),
+                "inline": True
+            },
+            {
+                "name": "🌍 Macro Bias",
+                "value": trade_data.get('macro_bias', 'Neutral'),
+                "inline": True
             }
         ],
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),

@@ -18,7 +18,7 @@ import os
 import sys
 import logging
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -82,6 +82,9 @@ class PlatformDiscovery:
     
     def _is_already_integrated(self, platform_name: str) -> bool:
         """Check if platform is already integrated"""
+        if platform_name.lower() == "alpaca":
+            return True
+            
         # Check discovered platforms
         for p in self.discovered_platforms:
             if p["name"] == platform_name:

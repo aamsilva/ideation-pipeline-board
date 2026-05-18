@@ -357,9 +357,10 @@ def analyze_with_llm(prompt: str, model: str = None) -> str:
     """
     Analyze data using LLM via litellm/smart-router.
     
-    CRITICAL: Uses ONLY smart-router (litellm) - NO direct Claude/OpenAI!
+    CRITICAL: Uses smart-router (litellm) with seamless pure-requests OpenRouter fallback!
     """
     try:
+        # Check if local LiteLLM Proxy is preferred and litellm is installed
         import litellm
         
         # Point to local LiteLLM Proxy
@@ -376,16 +377,40 @@ def analyze_with_llm(prompt: str, model: str = None) -> str:
             temperature=0.2,
             api_base="http://localhost:4000",
             api_key=os.getenv("LITELLM_MASTER_KEY", "sk-1234"),
-            timeout=90
+            timeout=10
         )
         
         return response.choices[0].message.content
-    except ImportError:
-        logger.warning("litellm not installed. Install with: pip install litellm")
-        return "LLM analysis unavailable (litellm not installed)"
     except Exception as e:
-        logger.error(f"LLM analysis failed: {e}")
-        return f"LLM analysis error: {str(e)}"
+        logger.info(f"Local LiteLLM proxy or library unavailable ({e}). Falling back to pure requests OpenRouter direct...")
+        try:
+            import requests
+            openrouter_key = os.getenv("OPENROUTER_API_KEY")
+            if not openrouter_key:
+                raise ValueError("OPENROUTER_API_KEY not configured in .env")
+                
+            headers = {
+                "Authorization": f"Bearer {openrouter_key}",
+                "Content-Type": "application/json"
+            }
+            data = {
+                "model": "google/gemini-2.5-flash",
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.2
+            }
+            resp = requests.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers=headers,
+                json=data,
+                timeout=30
+            )
+            if resp.status_code == 200:
+                return resp.json()["choices"][0]["message"]["content"]
+            else:
+                raise RuntimeError(f"OpenRouter API error {resp.status_code}: {resp.text}")
+        except Exception as ex:
+            logger.error(f"LLM analysis failed completely: {ex}")
+            return f"LLM analysis error: {str(ex)}"
 
 # ─── DEXTER-STYLE ANALYSIS ─────────────────────────────────
 

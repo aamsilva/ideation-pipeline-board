@@ -11,7 +11,7 @@ class FirstHourBreakoutStrategy:
     """Estratégia que deteta breakout na primeira hora e confirma com Bollinger"""
     
     def __init__(self):
-        self.client = get_executor(use_live=False)
+        # self.client = get_executor(use_live=False)
         self.opening_range = {}  # {symbol: {'high': x, 'low': y, 'time': t}}
         
     def update_opening_range(self, symbol, current_price):

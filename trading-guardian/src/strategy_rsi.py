@@ -10,7 +10,7 @@ class RSIStrategy:
     """Estratégia RSI Reversal"""
     
     def __init__(self, period=14, oversold=30, overbought=70):
-        self.client = get_executor(use_live=False)
+        self.client = None  # Will be set by StrategyEngine
         self.period = period
         self.oversold = oversold
         self.overbought = overbought
